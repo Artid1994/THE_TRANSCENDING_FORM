@@ -13,10 +13,30 @@ class IdentityState:
 
 
 class Identity:
+    VALID_STAGES = (
+        "NEWBORN",
+        "INFANT",
+        "LEARNING AGENT",
+        "DEVELOPING PERSONA",
+        "MATURE AGENT",
+    )
+
     def __init__(self) -> None:
         self.state = IdentityState(
             created_at=datetime.now(timezone.utc).isoformat()
         )
+
+    def set_stage(self, stage: str) -> None:
+        if stage not in self.VALID_STAGES:
+            raise ValueError(f"Invalid development stage: {stage}")
+
+        self.state.stage = stage
+
+    def add_experience(self, amount: int = 1) -> None:
+        if amount < 0:
+            raise ValueError("Experience amount cannot be negative")
+
+        self.state.experience += amount
 
     def snapshot(self) -> IdentityState:
         return IdentityState(
