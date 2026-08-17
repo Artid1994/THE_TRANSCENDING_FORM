@@ -2,6 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from runtime.action import Action
+from runtime.current_state import CurrentState
+from runtime.perception import Perception
+from runtime.action import ActionModule
+from runtime.current_state import CurrentStateModule
+from runtime.perception import PerceptionModule
+
 
 @dataclass(frozen=True)
 class CognitiveCycle:
@@ -10,27 +17,41 @@ class CognitiveCycle:
     reasoning: str
     decision: str
     experience_recorded: bool
+    perception: Perception | None = None
+    current_state: CurrentState | None = None
+    action: Action | None = None
 
 
 class CognitiveLoop:
     def __init__(self, cognitive, learning) -> None:
         self.cognitive = cognitive
         self.learning = learning
+
+        self.perception = PerceptionModule()
+        self.current_state = CurrentStateModule()
+        self.action = ActionModule()
+
         self.last_cycle: CognitiveCycle | None = None
 
     def process(self, user_input: str) -> CognitiveCycle:
-        user_input = user_input.strip()
+        perception = self.perception.process(user_input)
+
+        current_state = self.current_state.capture(
+            perception.normalized_input
+        )
 
         decision = self.cognitive.process(
-            user_input,
+            perception.normalized_input,
             record_experience=False,
         )
+
+        action = self.action.execute(decision)
 
         experience_recorded = False
 
         if decision == "RESPOND":
             candidate = self.learning.create_candidate(
-                user_input,
+                perception.normalized_input,
                 "GENERAL",
                 1.0,
             )
@@ -38,11 +59,14 @@ class CognitiveLoop:
             experience_recorded = evaluation.accepted
 
         cycle = CognitiveCycle(
-            input_text=user_input,
-            recalled=user_input,
-            reasoning=user_input,
+            input_text=perception.normalized_input,
+            recalled=perception.normalized_input,
+            reasoning=perception.normalized_input,
             decision=decision,
             experience_recorded=experience_recorded,
+            perception=perception,
+            current_state=current_state,
+            action=action,
         )
 
         self.last_cycle = cycle
@@ -58,4 +82,13 @@ class CognitiveLoop:
             reasoning=self.last_cycle.reasoning,
             decision=self.last_cycle.decision,
             experience_recorded=self.last_cycle.experience_recorded,
+            perception=self.perception.snapshot(
+                self.last_cycle.perception
+            ),
+            current_state=self.current_state.snapshot(
+                self.last_cycle.current_state
+            ),
+            action=self.action.snapshot(
+                self.last_cycle.action
+            ),
         )

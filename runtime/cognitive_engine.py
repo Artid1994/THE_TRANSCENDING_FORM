@@ -11,6 +11,8 @@ class CognitiveState:
     reasoning_active: bool = False
     decision_active: bool = False
     last_input: str = ""
+    last_recalled: str = ""
+    last_reasoning: str = ""
     last_decision: str = ""
 
 
@@ -25,6 +27,8 @@ class CognitiveEngine:
             reasoning_active=self.state.reasoning_active,
             decision_active=self.state.decision_active,
             last_input=self.state.last_input,
+            last_recalled=self.state.last_recalled,
+            last_reasoning=self.state.last_reasoning,
             last_decision=self.state.last_decision,
         )
 
@@ -33,9 +37,11 @@ class CognitiveEngine:
 
         self.state.recall_active = True
         recalled = self._recall(user_input)
+        self.state.last_recalled = recalled
 
         self.state.reasoning_active = True
         reasoning = self._reason(recalled)
+        self.state.last_reasoning = reasoning
 
         self.state.decision_active = True
         decision = self._decide(reasoning)
@@ -51,9 +57,19 @@ class CognitiveEngine:
 
         return decision
 
-    @staticmethod
-    def _recall(user_input: str) -> str:
-        return user_input.strip()
+    def _recall(self, user_input: str) -> str:
+        user_input = user_input.strip()
+
+        if not user_input:
+            return ""
+
+        memory = self.memory.snapshot()
+
+        for experience in reversed(memory.episodic):
+            if experience == user_input:
+                return experience
+
+        return user_input
 
     @staticmethod
     def _reason(recalled: str) -> str:
