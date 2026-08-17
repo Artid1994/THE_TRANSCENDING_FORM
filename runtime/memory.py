@@ -21,10 +21,17 @@ class Memory:
             semantic=list(self.state.semantic),
         )
 
+    def add_experience(self, experience: str) -> None:
+        experience = experience.strip()
+
+        if not experience:
+            return
+
+        self.state.episodic.append(experience)
+
     def is_empty(self) -> bool:
         return not (
             self.state.working
             or self.state.episodic
             or self.state.semantic
         )
-
