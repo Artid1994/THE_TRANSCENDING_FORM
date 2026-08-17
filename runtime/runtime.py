@@ -8,6 +8,7 @@ from runtime.personality import Personality
 from runtime.self_model import SelfModel
 from runtime.cognitive_engine import CognitiveEngine
 
+
 class TranscendingRuntime:
     def __init__(self) -> None:
         self.system = SystemMonitor()
@@ -16,7 +17,7 @@ class TranscendingRuntime:
         self.internal_state = InternalStateManager()
         self.personality = Personality()
         self.self_model = SelfModel()
-        self.cognitive = CognitiveEngine()
+        self.cognitive = CognitiveEngine(self.memory)
 
     def snapshot(self) -> dict:
         return {

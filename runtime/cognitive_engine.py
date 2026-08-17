@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from runtime.memory import Memory
+
 
 @dataclass
 class CognitiveState:
@@ -13,8 +15,9 @@ class CognitiveState:
 
 
 class CognitiveEngine:
-    def __init__(self) -> None:
+    def __init__(self, memory: Memory) -> None:
         self.state = CognitiveState()
+        self.memory = memory
 
     def snapshot(self) -> CognitiveState:
         return CognitiveState(
@@ -38,6 +41,9 @@ class CognitiveEngine:
         decision = self._decide(reasoning)
 
         self.state.last_decision = decision
+
+        if decision == "RESPOND":
+            self.memory.add_experience(user_input)
 
         self.state.recall_active = False
         self.state.reasoning_active = False
