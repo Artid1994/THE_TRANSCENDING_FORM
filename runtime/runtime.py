@@ -11,6 +11,7 @@ from runtime.learning import Learning
 from runtime.development import Development
 from runtime.prediction import Prediction
 from runtime.identity_continuity import IdentityContinuity
+from runtime.cognitive_loop import CognitiveLoop
 
 
 class TranscendingRuntime:
@@ -23,6 +24,7 @@ class TranscendingRuntime:
         self.self_model = SelfModel()
         self.cognitive = CognitiveEngine(self.memory)
         self.learning = Learning(self.memory)
+        self.cognitive_loop = CognitiveLoop(self.cognitive, self.learning)
         self.prediction = Prediction()
         self.identity_continuity = IdentityContinuity()
         self.development = Development(
@@ -44,6 +46,7 @@ class TranscendingRuntime:
             "personality": self.personality.snapshot(),
             "self_model": self.self_model.snapshot(),
             "cognitive": self.cognitive.snapshot(),
+            "cognitive_loop": self.cognitive_loop.snapshot(),
             "learning": self.learning.snapshot(),
             "prediction": self.prediction.snapshot(),
             "identity_continuity": self.identity_continuity.snapshot(),

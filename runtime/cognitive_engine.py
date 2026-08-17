@@ -28,7 +28,7 @@ class CognitiveEngine:
             last_decision=self.state.last_decision,
         )
 
-    def process(self, user_input: str) -> str:
+    def process(self, user_input: str, record_experience: bool = True) -> str:
         self.state.last_input = user_input
 
         self.state.recall_active = True
@@ -42,7 +42,7 @@ class CognitiveEngine:
 
         self.state.last_decision = decision
 
-        if decision == "RESPOND":
+        if decision == "RESPOND" and record_experience:
             self.memory.add_experience(user_input)
 
         self.state.recall_active = False
