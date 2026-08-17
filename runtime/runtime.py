@@ -40,4 +40,5 @@ class TranscendingRuntime:
             "cognitive": self.cognitive.snapshot(),
             "learning": self.learning.snapshot(),
             "development": self.development.assess(),
+            "development_history": self.development.history_snapshot(),
         }

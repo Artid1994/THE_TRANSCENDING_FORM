@@ -15,6 +15,17 @@ class DevelopmentAssessment:
     self_model: object
 
 
+@dataclass(frozen=True)
+class DevelopmentCriteriaEvidence:
+    experience: int
+    episodic_memory_count: int
+    semantic_memory_count: int
+    learning_available: bool
+    self_model_complexity: int
+    prediction_available: bool
+    identity_continuity_available: bool
+
+
 class Development:
     def __init__(self, identity, memory, learning, personality, self_model) -> None:
         self.identity = identity
@@ -22,6 +33,7 @@ class Development:
         self.learning = learning
         self.personality = personality
         self.self_model = self_model
+        self.history: list[DevelopmentCriteriaEvidence] = []
 
     def assess(self) -> DevelopmentAssessment:
         identity = self.identity.snapshot()
@@ -37,3 +49,31 @@ class Development:
             personality=self.personality.snapshot(),
             self_model=self.self_model.snapshot(),
         )
+
+    def criteria_evidence(self) -> DevelopmentCriteriaEvidence:
+        identity = self.identity.snapshot()
+        memory = self.memory.snapshot()
+        self_model = self.self_model.snapshot()
+
+        evidence = DevelopmentCriteriaEvidence(
+            experience=identity.experience,
+            episodic_memory_count=len(memory.episodic),
+            semantic_memory_count=len(memory.semantic),
+            learning_available=(
+                self.learning.last_candidate is not None
+                and self.learning.last_evaluation is not None
+            ),
+            self_model_complexity=(
+                len(self_model.goals)
+                + len(self_model.beliefs)
+                + len(self_model.self_history)
+            ),
+            prediction_available=False,
+            identity_continuity_available=False,
+        )
+
+        self.history.append(evidence)
+        return evidence
+
+    def history_snapshot(self) -> list[DevelopmentCriteriaEvidence]:
+        return list(self.history)
