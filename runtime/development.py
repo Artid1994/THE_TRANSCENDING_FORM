@@ -27,12 +27,14 @@ class DevelopmentCriteriaEvidence:
 
 
 class Development:
-    def __init__(self, identity, memory, learning, personality, self_model) -> None:
+    def __init__(self, identity, memory, learning, personality, self_model, prediction, identity_continuity) -> None:
         self.identity = identity
         self.memory = memory
         self.learning = learning
         self.personality = personality
         self.self_model = self_model
+        self.prediction = prediction
+        self.identity_continuity = identity_continuity
         self.history: list[DevelopmentCriteriaEvidence] = []
 
     def assess(self) -> DevelopmentAssessment:
@@ -68,8 +70,10 @@ class Development:
                 + len(self_model.beliefs)
                 + len(self_model.self_history)
             ),
-            prediction_available=False,
-            identity_continuity_available=False,
+            prediction_available=self.prediction.snapshot().prediction_count > 0,
+            identity_continuity_available=(
+                self.identity_continuity.snapshot().snapshot_count > 0
+            ),
         )
 
         self.history.append(evidence)

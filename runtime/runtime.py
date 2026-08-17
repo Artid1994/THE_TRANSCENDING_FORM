@@ -9,6 +9,8 @@ from runtime.self_model import SelfModel
 from runtime.cognitive_engine import CognitiveEngine
 from runtime.learning import Learning
 from runtime.development import Development
+from runtime.prediction import Prediction
+from runtime.identity_continuity import IdentityContinuity
 
 
 class TranscendingRuntime:
@@ -21,12 +23,16 @@ class TranscendingRuntime:
         self.self_model = SelfModel()
         self.cognitive = CognitiveEngine(self.memory)
         self.learning = Learning(self.memory)
+        self.prediction = Prediction()
+        self.identity_continuity = IdentityContinuity()
         self.development = Development(
             self.identity,
             self.memory,
             self.learning,
             self.personality,
             self.self_model,
+            self.prediction,
+            self.identity_continuity,
         )
 
     def snapshot(self) -> dict:
@@ -39,6 +45,8 @@ class TranscendingRuntime:
             "self_model": self.self_model.snapshot(),
             "cognitive": self.cognitive.snapshot(),
             "learning": self.learning.snapshot(),
+            "prediction": self.prediction.snapshot(),
+            "identity_continuity": self.identity_continuity.snapshot(),
             "development": self.development.assess(),
             "development_history": self.development.history_snapshot(),
         }
