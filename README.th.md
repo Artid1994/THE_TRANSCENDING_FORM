@@ -1,815 +1,1143 @@
-# The Transcending Form
+AE01M — The Transcending Form
 
-> โครงการทดลอง Offline Identity Runtime สำหรับสร้าง Artificial Identity ที่เริ่มต้นจากสถานะ **Newborn** ขั้นต่ำ และพัฒนาผ่านประสบการณ์ ความทรงจำ การรับรู้ การเรียนรู้ การสร้าง Self Model ความต่อเนื่องของตัวตน การแทนข้อมูลมนุษย์ และในที่สุด Embodiment
+«สถาปัตยกรรมการรู้คิดภายในเครื่อง สำหรับสร้างจิตประดิษฐ์เริ่มต้นแบบ Newborn Brain»
 
-## 1. วิสัยทัศน์
+AE01M / The Transcending Form (TTF) เป็นโครงการทดลองสร้างสถาปัตยกรรมการรู้คิดภายในเครื่อง (Local Cognitive Architecture) ที่มีขนาดเล็ก มีสถานะต่อเนื่อง (stateful) และสามารถเริ่มต้นในสภาพ Newborn Brain จากนั้นเรียนรู้จากประสบการณ์ สะสมความทรงจำ พัฒนาความสามารถ และในระยะยาวทำงานเป็นผู้ช่วยส่วนตัวด้านการรู้คิดที่มีสถานะต่อเนื่องได้
 
-ทิศทางระยะยาวของโครงการ:
+โครงการนี้ไม่ได้มุ่งสร้าง Chatbot ที่ต้องเรียก LLM เพื่อคิดในทุก cycle
 
-```text
-มนุษย์
-  ↓
-ประสบการณ์ / ความทรงจำ
-  ↓
-Memory Core
-  ↓
-Identity Model
-  ↓
-Cognitive AI
-  ↓
-Self-Learning
-  ↓
-Real-Time Agent
-  ↓
-Virtual Body
-  ↓
-Robot
-```
-
-โครงการไม่ได้เริ่มต้นด้วยความพยายามพิสูจน์การถ่ายโอนจิตสำนึก แต่เริ่มจากการสร้าง Artificial Identity ที่สามารถสะสมประสบการณ์และสถานะของตัวเองได้อย่างวัดผลได้
-
-กฎทางสถาปัตยกรรมหลักคือ:
-
-```text
-AI Model != Identity
-```
-
-AI Model เป็น Cognitive Engine ส่วน Identity, Memory, Personality, Self Model, Learning State, Development State และ Continuity อยู่ภายนอกโมเดล
+เป้าหมายระยะยาวคือการสร้าง กลไกการรู้คิดที่อยู่รอบโมเดล AI เพื่อให้โมเดล AI เป็นเพียงองค์ประกอบหนึ่งของระบบ ไม่ใช่ตัวระบบทั้งหมด
 
 ---
 
-## 2. หลักการสำคัญ
+วิสัยทัศน์
 
-1. **Newborn-first** — เริ่มจาก Identity ขั้นต่ำและ Memory ที่ว่างเปล่า
-2. **Identity ≠ AI Model** — Cognitive Model ต้องสามารถเปลี่ยนได้โดยไม่ทำลาย Identity State โดยตัวมันเอง
-3. **Offline / Local-first** — Identity Core ถูกออกแบบให้ทำงานภายในเครื่อง
-4. **Micro-module architecture** — แบ่งเป็นโมดูลขนาดเล็กที่มีหน้าที่ชัดเจน
-5. **Experience-driven development** — การเปลี่ยนแปลงของ Identity ต้องอธิบายได้จากประสบการณ์และ State ที่วัดได้
-6. **Explicit boundaries** — การประมวลผลต้องไม่เปลี่ยนแปลง Subsystem อื่นโดยเงียบ ๆ
-7. **Test-first progression** — Contract → Implementation → Regression → Integration → Checkpoint
-8. **No unsupported consciousness claims** — พฤติกรรมที่น่าเชื่อถือไม่ถือเป็นหลักฐานพิสูจน์ Consciousness
-9. **Scope discipline** — ทำ Phase ปัจจุบันให้เสร็จก่อนเพิ่มความสามารถของ Phase ถัดไป
-10. **ข้อจำกัด RAM 4 GB** — เป้าหมายเริ่มต้นคือ Notebook ที่มีทรัพยากรจำกัด
+แนวคิดหลักคือ:
+
+สมองแรกเกิด (Newborn Brain)
+        ↓
+ประสบการณ์
+        ↓
+การรับรู้
+        ↓
+ความทรงจำ
+        ↓
+การรู้คิด
+        ↓
+เป้าหมาย / เจตจำนง
+        ↓
+การตัดสินใจ
+        ↓
+การกระทำ
+        ↓
+ผลตอบกลับ
+        ↓
+การสะท้อนผล
+        ↓
+การเรียนรู้
+        ↓
+การพัฒนา
+        ↺
+
+ระบบควรค่อย ๆ สะสมความรู้ ทักษะ กลยุทธ์ และความสามารถทางพฤติกรรมจากประสบการณ์ แทนที่จะเขียนความสามารถทั้งหมดไว้ล่วงหน้าแบบ hard-code
+
+เป้าหมายระยะยาวคือผู้ช่วยส่วนตัวที่มีพฤติกรรมในลักษณะ JARVIS ในระดับสถาปัตยกรรมและพฤติกรรม:
+
+ผู้ใช้
+  ↓
+AE01M
+  ↓
+เข้าใจ
+  ↓
+จดจำ
+  ↓
+ให้เหตุผล
+  ↓
+วางแผน
+  ↓
+ลงมือทำ
+  ↓
+ตรวจสอบผล
+  ↓
+เรียนรู้
+  ↓
+ปรับปรุง
+  ↺
+
+นี่เป็นโครงการวิจัยและทดลอง โครงการไม่ได้อ้างว่าระบบจะมีจิตสำนึก มีความคิดเหมือนมนุษย์ หรือมีสติปัญญาทั่วไป (AGI)
 
 ---
 
-## 3. Roadmap
+หลักการแกนกลาง
 
-```text
-PHASE 0   UI FOUNDATION
-   ↓
-PHASE 1   BRAIN / IDENTITY DASHBOARD
-   ↓
-PHASE 2   NEWBORN CORE
-   ↓
-PHASE 3   MEMORY CORE
-   ↓
-PHASE 4   COGNITIVE ENGINE
-   ↓
-PHASE 5   REAL-TIME COGNITION
-   ↓
-PHASE 6   SELF-LEARNING
-   ↓
-PHASE 7   DEVELOPMENT
-   ↓
-PHASE 8   HUMAN DATA
-   ↓
-PHASE 9   VIRTUAL BODY
-   ↓
-PHASE 10  ROBOT
-```
+กฎสำคัญที่สุดของสถาปัตยกรรมคือ:
 
-แต่ละ Phase ทำตามลำดับ ไม่ควรสร้าง Function ที่ยังไม่กำหนด เพียงเพื่อทำให้ Phase ในอนาคตดูเหมือนเสร็จสมบูรณ์
+AI Model ≠ Identity
+AI Model ≠ Memory
+AI Model ≠ Cognitive Runtime
+
+โมเดล AI เช่น Qwen ถูกมองเป็นองค์ประกอบด้านการรู้คิด/ภาษา ซึ่งสามารถเปลี่ยนหรือถอดออกได้
+
+Identity, Memory, Development State, Goal, Experience และ Runtime State ต้องอยู่นอกโมเดล
+
+ทำให้สามารถเปลี่ยนโมเดล AI ได้โดยไม่ทำลาย Identity และสถานะที่ระบบสะสมมา
 
 ---
 
-## 4. สถาปัตยกรรม
+สิ่งที่เรากำลังสร้าง
 
-องค์ประกอบของ Runtime ปัจจุบัน:
+เราไม่ได้พยายามโปรแกรมหุ่นยนต์ให้ฉลาดสำเร็จรูป
 
-```text
-TranscendingRuntime
-│
-├── System Monitor
-├── Identity
-├── Memory
-│   ├── Working
-│   ├── Episodic
-│   └── Semantic
-├── Internal State
-├── Personality
-├── Self Model
-├── Cognitive Engine
-├── Cognitive Loop
-├── Perception
-├── Current State
-├── Action
-├── Learning
-├── Prediction
-├── Identity Continuity
-├── Development
-│
-├── Human Data
-├── Memory Processor
-├── Identity Representation
-│
-└── Virtual Body
-    ├── Sensor
-    ├── World Model
-    ├── Body Action
-    └── Environment
-```
+เรากำลังสร้าง กลไกสำหรับการพัฒนาความสามารถทางการรู้คิด
 
-Runtime ทำหน้าที่เป็น Composition Layer ส่วนโมดูลแต่ละตัวต้องสามารถทดสอบแยกกันได้
+ว่างเปล่า / NEWBORN
+        ↓
+การสอน
+        ↓
+ประสบการณ์
+        ↓
+ความทรงจำ
+        ↓
+การเรียนรู้
+        ↓
+ความสามารถ
+        ↓
+การปรับตัว
+        ↓
+การพัฒนา
+        ↓
+ประสบการณ์ใหม่
+        ↺
 
----
+ผู้ใช้เป็นผู้กำหนดเป้าหมาย การสอน ขอบเขต และทรัพยากร
 
-# 5. Identity Core
+AE01M ควรค่อย ๆ เรียนรู้วิธีบรรลุเป้าหมายเหล่านั้น
 
-สถานะ Newborn เริ่มต้น:
+สิ่งที่ Learning สามารถเปลี่ยนได้:
 
-```text
-Identity       = minimal
-Memory         = empty
-Knowledge      = minimal
-Experience     = 0
-Stage          = NEWBORN
-Self Model     = minimal
-Personality    = minimal / latent
-```
+- ความรู้
+- กลยุทธ์
+- ทักษะ
+- การคาดการณ์
+- วิธีการทำงาน
+- การแตกงาน
+- ความสัมพันธ์ที่เรียนรู้
 
-ระบบตั้งใจไม่โหลดประวัติทั้งหมดของบุคคลเป้าหมายเข้ามาตั้งแต่เริ่มต้น
+สิ่งที่ Learning ไม่ควรเปลี่ยนโดยพลการ:
 
-## Development Stages
-
-```text
-NEWBORN
-   ↓
-INFANT
-   ↓
-LEARNING AGENT
-   ↓
-DEVELOPING PERSONA
-   ↓
-MATURE AGENT
-```
-
-การเปลี่ยน Stage เป็นแบบลำดับต่อเนื่อง โดย Reject:
-
-- การข้าม Stage
-- การถอยกลับ
-- การเปลี่ยนไป Stage เดิม
-- Stage ที่ไม่ถูกต้อง
-
-หลักฐานสำหรับ Development ที่มีอยู่ในปัจจุบัน:
-
-```text
-experience
-episodic_memory_count
-semantic_memory_count
-learning_available
-self_model_complexity
-prediction_available
-identity_continuity_available
-```
-
-Development Policy Thresholds ยังไม่ได้กำหนดจนกว่าจะมี Project Specification รองรับ
+- เป้าหมายของ Owner/User
+- Hard Safety Boundary
+- Identity/Core State ที่ได้รับการป้องกัน
+- กลไกป้องกัน Runtime ที่สำคัญ
 
 ---
 
-# 6. Memory Core
+สถาปัตยกรรม
 
-Memory แบ่งเป็น:
+สถาปัตยกรรมเชิงแนวคิดในปัจจุบัน:
 
-```text
-Working
-Episodic
-Semantic
-```
+                         USER / OWNER
+                              │
+                        Goal / Teaching
+                              │
+                              ▼
+                           AE01M
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+     Identity             Perception            Internal State
+        │                     │                     │
+        └─────────────────────┼─────────────────────┘
+                              ▼
+                          Attention
+                              │
+                              ▼
+                            Memory
+                              │
+                              ▼
+                          Cognition
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+                  Goal              Intention
+                    └─────────┬─────────┘
+                              ▼
+                        Safety Boundary
+                              │
+                              ▼
+                           Decision
+                              │
+                              ▼
+                            Action
+                              │
+                              ▼
+                    Environment / Tools
+                              │
+                              ▼
+                          Feedback
+                              │
+                              ▼
+                         Reflection
+                              │
+                              ▼
+                          Learning
+                              │
+                              ▼
+                        Development
+                              │
+                              └───────────────↺
 
-Cognitive Architecture ถือว่า Memory เป็น Independent State System ไม่ใช่สิ่งที่ซ่อนอยู่ภายใน AI Prompt
-
-ดังนั้น Experience จึงสามารถกลายเป็น Persistent State ที่ตรวจสอบได้
+Cognitive Core ถูกออกแบบเป็นโมดูลขนาดเล็กหลายตัว ไม่ใช่ framework ขนาดใหญ่เพียงตัวเดียว
 
 ---
 
-# 7. Cognitive Engine
+Cognitive Cycle
 
-Cognitive Loop ที่ตั้งใจไว้:
+วงจรการรู้คิดพื้นฐานคือ:
 
-```text
-INPUT
-  ↓
-PERCEPTION
-  ↓
-CURRENT STATE
-  ↓
-MEMORY RECALL
-  ↓
-REASONING
-  ↓
-DECISION
-  ↓
-ACTION
-  ↓
-EXPERIENCE
-  ↓
-LEARNING
-  ↓
-MEMORY UPDATE
-  ↓
-INPUT
-```
+OBSERVE
+   ↓
+PERCEIVE
+   ↓
+RECALL
+   ↓
+THINK
+   ↓
+GOAL
+   ↓
+INTENTION
+   ↓
+SAFETY
+   ↓
+DECIDE
+   ↓
+ACT
+   ↓
+OBSERVE RESULT
+   ↓
+EVALUATE
+   ↓
+REFLECT
+   ↓
+LEARN
+   ↓
+UPDATE MEMORY
+   ↺
 
-แตกต่างจาก Chatbot แบบง่าย:
+ในอนาคต "autonomous_step()" จะเป็นตัวแทนของ cognitive cycle หนึ่งรอบ
 
-```text
-Question → Answer → End
-```
-
-พฤติกรรมเป้าหมายคือ:
-
-```text
-Perceive → Remember → Reason → Act → Experience → Learn → Change
-```
+สถาปัตยกรรมตั้งใจแยก cognitive cycle ออกจาก scheduler หรือ background process อย่างชัดเจน โดยจะเพิ่มการทำงานอัตโนมัติแบบต่อเนื่องหลังจากพิสูจน์ state transition และ lifecycle แล้ว
 
 ---
 
-# 8. Self-Learning
+Newborn Micro-Brain
 
-Learning ถูกแยกออกจาก Cognition อย่างชัดเจน:
+สมองเริ่มต้นควรมีขนาดเล็กที่สุดเท่าที่จำเป็น
 
-```text
+เป้าหมายไม่ใช่ preload ความรู้จำนวนมาก
+
+แต่ละ instance ใหม่ควรเริ่มต้นในลักษณะ:
+
+Knowledge       = น้อยที่สุด
+Experience      = ว่าง
+Episodic Memory = ว่าง
+Semantic Memory = ว่าง
+Skills          = ขั้นต่ำ
+Goals           = ได้รับจากภายนอก
+Identity        = โครงสร้างสถานะที่ได้รับการป้องกัน
+
+กลไกสำหรับเรียนรู้จะมีอยู่ก่อนที่ความรู้จะมี
+
+จึงสามารถแยก:
+
+Knowledge
+
+ออกจาก:
+
+ความสามารถในการเรียนรู้ Knowledge
+
+สิ่งที่สองคือสิ่งที่โครงการพยายามสร้างเป็นหลัก
+
+---
+
+Memory Architecture
+
+Memory เป็นหนึ่งในองค์ประกอบหลักของ AE01M
+
+Foundation ปัจจุบันประกอบด้วย:
+
+Working Memory
+Episodic Memory
+Semantic Memory
+Experience Objects
+Recall Index
+Semantic Index
+Memory Consolidation
+
+เป้าหมายของ Brain-like Memory คือ:
+
 Experience
-    ↓
-Candidate Learning
-    ↓
-Evaluation
-    ↓
-Memory Update
-    ↓
-Personality Adaptation
-    ↓
-Self Model Update
-    ↓
-Development Sync
-```
+   ↓
+Salience
+   ↓
+Working Memory
+   ↓
+Episodic Memory
+   ↓
+Association
+   ↓
+Consolidation
+   ↓
+Semantic Memory
+   ↓
+Recall
+   ↓
+Cognition
 
-Learning Candidate ประกอบด้วย:
+กลไก Memory ในระยะต่อไปประกอบด้วย:
 
-```text
-experience
-category
+- Associative Recall
+- Contextual Recall
+- Salience
+- Novelty
+- Relevance
+- Confidence
+- Repetition
+- Consolidation
+- Decay
+- Forgetting
+- Reconsolidation
+- Self Memory
+- Memory Association
+
+เป้าหมายไม่ใช่สร้างฐานข้อมูลข้อความแบบไม่จำกัด
+
+เป้าหมายคือสร้างกลไก Memory ที่สามารถพิจารณาว่าอะไรมีประโยชน์ อะไรเกี่ยวข้อง อะไรควร consolidate และอะไรควรถูกพัฒนาเป็นความรู้
+
+---
+
+Cell-Based Memory
+
+สถาปัตยกรรม Memory ในอนาคตจะใช้แนวคิด Computational Memory Cell
+
+Cell เหล่านี้เป็น abstraction ทางซอฟต์แวร์ ไม่ได้หมายความว่าเป็น neuron ทางชีววิทยาโดยตรง
+
+AE01M Memory
+│
+├── Working Cells
+├── Episodic Cells
+├── Association Cells
+├── Semantic Cells
+├── Self Cells
+└── Safety Cells
+
+ข้อมูลของ Cell อาจประกอบด้วย:
+
+id
+type
+content
+associations
+salience
 confidence
-```
+access_count
+created_at
+last_access
+source_refs
 
-Candidate ต้องผ่าน Evaluation ก่อน Acceptance เพื่อสร้าง Boundary ที่สามารถตรวจสอบได้สำหรับ Learning Policy ในอนาคต
+Memory ต้องมีขนาดจำกัด
 
----
+เมื่อเกิด Memory Pressure:
 
-# 9. Identity Continuity
+New Experience
+      ↓
+ตรวจสอบความจุ Memory
+      ↓
+Consolidation
+      ↓
+Merge / Promote / Forget
+      ↓
+คืนพื้นที่
+      ↓
+บันทึกประสบการณ์ใหม่
 
-Identity Continuity เป็น Subsystem ที่แยกออกมาอย่างชัดเจน
-
-บันทึก Snapshot เช่น:
-
-```text
-snapshot_count
-last_stage
-last_experience
-```
-
-เป้าหมายคือทำให้ Continuity สามารถวัดผลได้ แทนที่จะสมมติว่ามีอยู่
-
----
-
-# 10. Prediction Boundary
-
-Prediction มีอยู่ในรูปแบบ Capability Boundary:
-
-```text
-PredictionState
-├── prediction_count
-└── last_prediction
-```
-
-Complete Prediction Algorithm **ยังไม่ได้กำหนด**
-
-ดังนั้น:
-
-```text
-Prediction state      = implemented
-Prediction algorithm  = undefined
-```
-
-โครงการจะไม่สร้าง Prediction Algorithm ขึ้นมาเองเพียงเพื่อให้ Development Criterion ผ่าน
+สถาปัตยกรรม Cell ไม่ได้มีเป้าหมายลบ Memory architecture เดิม แต่เป็นชั้นสำหรับจัดระเบียบและจัดเก็บข้อมูล โดยต้องรักษา interface และ regression behavior เดิมไว้
 
 ---
 
-# 11. Human Data
+Associative Memory
 
-Human Data ถูกนำเข้าหลังจาก Foundation ของ Newborn/Development
+ปัจจุบันมีต้นแบบ Associative Recall แล้ว แต่ Contextual / Semantic Recall ยังอยู่ระหว่างการพัฒนา
 
-Domain ที่รองรับ:
+เป้าหมายคือ:
 
-```text
-Biography
-Conversation
-Writing Style
-Preferences
-Experiences
-Values
-Beliefs
-Memories
-Decision Patterns
-Emotional Associations
-```
+Memory A
+   ↕
+Association
+   ↕
+Memory B
+   ↕
+Association
+   ↕
+Memory C
 
-ข้อมูลไม่ได้ถูกนำไป Dump ลง Prompt โดยตรง
+เพื่อให้สามารถเรียกคืน Memory จาก:
 
-Architecture:
+- บริบท
+- ความสัมพันธ์ทางความหมาย
+- ประสบการณ์ที่ผ่านมา
+- Salience
+- Relevance
+- Association
 
-```text
-Human Data
-     ↓
-Memory Processing
-     ↓
-Structured Memory
-     ↓
-Identity Representation
-     ↓
-Memory Core
-```
+แทนการพึ่งพา Exact String Matching เพียงอย่างเดียว
 
-## HumanData
+---
 
-`HumanData` เป็น Immutable Data Container สำหรับ Source Domain ทั้ง 10 ด้าน
+Learning
 
-มันเป็น Boundary ไม่ใช่ Processing Engine
+Learning Pipeline มีรูปแบบ:
 
-## StructuredMemory
+Experience
+   ↓
+Candidate
+   ↓
+Evaluation
+   ↓
+Memory
+   ↓
+Reflection
+   ↓
+Development
 
-Structured Memory แยกข้อมูลเป็น:
+หลักสำคัญคือ:
 
-```text
-Episodic
-Semantic
-```
+Learning เปลี่ยน "วิธีการ" เพื่อบรรลุเป้าหมาย
 
-Processor ถูกแยกออกจาก Data Container และ Runtime
+ไม่ใช่:
 
-## IdentityRepresentation
+Learning เปลี่ยน "เป้าหมาย" ของ Owner โดยพลการ
 
-```text
-StructuredMemory
+ตัวอย่าง:
+
+เป้าหมายของผู้ใช้:
+เรียนรู้ BLE บน ESP32
+
+AE01M:
+ค้นคว้า
+ ↓
+ทดลอง
+ ↓
+ล้มเหลว
+ ↓
+Reflection
+ ↓
+พบ Knowledge Gap
+ ↓
+สร้าง LearningTask ถัดไป
+ ↓
+เรียนรู้ใหม่
+
+ผู้ใช้ไม่จำเป็นต้องกำหนดทุกบทเรียนย่อยด้วยตนเอง
+
+---
+
+Reflection
+
+Reflection ทำหน้าที่เปลี่ยนประสบการณ์ให้กลายเป็น Learning
+
+Reflection สามารถระบุ:
+
+SUCCESS
+FAILURE
+MISSING_KNOWLEDGE
+
+และสร้าง:
+
+Lesson
+Next Learning Task
+
+เป้าหมาย Autonomous Learning Loop:
+
+Goal
+ ↓
+Task
+ ↓
+Research / Experiment
+ ↓
+Result
+ ↓
+Reflection
+ ↓
+มี Knowledge Gap หรือไม่?
+ ├── NO → ดำเนินการ / เสร็จสิ้น
+ │
+ └── YES
        ↓
-IdentityRepresentation
-```
-
-Representation เป็น Immutable และไม่เปลี่ยนโดยตรง:
-
-```text
-Identity.stage
-Identity.experience
-Identity.identity_level
-```
-
-## Runtime API
-
-Runtime ปัจจุบันมี:
-
-```python
-runtime.import_human_data(data)
-```
-
-การ Import เป็น Explicit และไม่ทำให้ Development Stage เปลี่ยนโดยอัตโนมัติ
+   New LearningTask
+       ↓
+      Learn
+       ↺
 
 ---
 
-# 12. Virtual Body
+Autonomous Growth
 
-Phase 9 เพิ่ม Virtual Embodiment ก่อนเข้าสู่ Physical Robotics
+AE01M จะถือว่าเริ่มมี Growth Loop จริงเมื่อสามารถ:
 
-แนวคิด:
+1. จดจำประสบการณ์ของตัวเองได้
+2. ประเมินได้ว่าตัวเองยังขาดอะไร
+3. สร้างและทำ LearningTask ถัดไปได้เอง
 
-```text
-                  AI
-                   │
-          ┌────────┴────────┐
-          ↓                 ↓
-       Sensors            Memory
-          ↓                 ↓
-          └────────┬────────┘
-                   ↓
-              World Model
-                   ↓
-                Actions
-```
+วงจรเป้าหมาย:
 
-Foundation ปัจจุบัน:
+Observe
+   ↓
+Think
+   ↓
+Act
+   ↓
+Evaluate
+   ↓
+Reflect
+   ↓
+Identify Knowledge Gap
+   ↓
+Create LearningTask
+   ↓
+Learn
+   ↓
+Consolidate
+   ↓
+Update Memory
+   ↓
+Reuse Knowledge
+   ↺
 
-```text
-VirtualBody
-├── Sensor
-├── WorldModel
-├── BodyActionModule
-└── Environment
-```
+นี่คือคำจำกัดความของ Autonomous Growth ในโครงการ
 
-## Sensor
-
-สร้าง Immutable Reading:
-
-```text
-SensorReading
-├── sensor
-├── value
-└── timestamp
-```
-
-Implementation ปัจจุบันเป็น Virtual และไม่ต้องใช้ Physical Hardware
-
-## World Model
-
-สถานะปัจจุบัน:
-
-```text
-WorldState
-├── position
-├── objects
-└── environment
-```
-
-## Body Action
-
-Virtual Body Action ถูกแยกจาก Cognitive `Action` Module ที่มีอยู่เดิมโดยตั้งใจ:
-
-```text
-BodyAction
-├── action
-└── value
-```
-
-## Environment
-
-สถานะปัจจุบัน:
-
-```text
-EnvironmentState
-├── name
-└── time
-```
-
-## Current Boundary
-
-`VirtualBody` ถูกเชื่อมเข้ากับ `TranscendingRuntime` และแสดงผ่าน Runtime Snapshot
-
-อย่างไรก็ตาม:
-
-```text
-CognitiveLoop → VirtualBody
-```
-
-**ยังไม่ใช่ Automatic Control Loop**
-
-งาน Phase 9 ปัจจุบันคือ Virtual Body Foundation ไม่ใช่ Full Embodied Agent
+ไม่ได้หมายความว่าระบบมีจิตสำนึก
 
 ---
 
-# 13. Physical Robot — อนาคต
+Goal / Intention / Teaching
 
-Physical Robotics จะมาหลังจาก Virtual Embodiment มีความเสถียร:
+ผู้ใช้คือ Owner และเป็นแหล่งกำหนดเป้าหมายระดับสูง
 
-```text
-Identity Core
-      │
-      ▼
-Cognitive AI
-      │
-      ▼
-Robot Runtime
-      │
- ┌────┼────┐
- ↓    ↓    ↓
-Camera Mic Motors
-```
+ลำดับการควบคุม:
 
-Research Requirement สำคัญคือ Embodiment Independence:
+USER COMMAND
+     ↓
+UNDERSTAND
+     ↓
+GOAL
+     ↓
+INTENTION
+     ↓
+SAFETY
+     ↓
+DECISION
+     ↓
+ACTION
 
-```text
-Robot A
-   ↓
-Identity Core
-   ↓
-Robot B
-```
+AE01M สามารถเรียนรู้วิธีที่ดีขึ้นเพื่อบรรลุเป้าหมาย
 
-Identity ไม่ควรถูกผูกเชิงโครงสร้างเข้ากับ Physical Body เพียงตัวเดียว
+แต่ไม่ควรเปลี่ยนเป้าหมายของ Owner โดยเงียบ ๆ
 
----
+ระบบ Teaching ในระยะยาว:
 
-# 14. โครงสร้าง Source ปัจจุบัน
+Teaching Guide
+      ↓
+Learning Goal
+      ↓
+Learning Task
+      ↓
+Research
+      ↓
+Experiment
+      ↓
+Evaluation
+      ↓
+Memory
+      ↓
+Skill
 
-```text
-runtime/
-├── runtime.py
-├── identity.py
-├── memory.py
-├── personality.py
-├── self_model.py
-├── internal_state.py
-├── cognitive_engine.py
-├── cognitive_loop.py
-├── perception.py
-├── current_state.py
-├── action.py
-├── learning.py
-├── prediction.py
-├── development.py
-├── identity_continuity.py
-├── human_data.py
-├── memory_processing.py
-├── identity_representation.py
-├── sensor.py
-├── world_model.py
-├── body_action.py
-├── environment.py
-└── virtual_body.py
-```
+คู่มือควรกำหนดสิ่งที่ต้องเรียนและวิธีประเมินผล โดยไม่จำเป็นต้องบรรจุคำตอบทั้งหมดไว้ล่วงหน้า
 
 ---
 
-# 15. กลยุทธ์การตรวจสอบ
+Safety Architecture
 
-Development ดำเนินตาม:
+Safety เป็นขอบเขตทางสถาปัตยกรรมที่ได้รับการป้องกัน
 
-```text
-Contract
+Cognition
    ↓
-Implementation
+Thought / Intention
    ↓
+Cognitive Safety Gate
+   ↓
+Decision
+   ↓
+Action
+
+Hard Safety Boundary ต้องได้รับการป้องกันจาก Learning ปกติ
+
+ระบบสามารถเรียนรู้ประสบการณ์เกี่ยวกับความปลอดภัยได้ แต่ข้อมูลที่เรียนรู้ไม่ควรถูกเปลี่ยนเป็น Hard Rule ถาวรโดยอัตโนมัติ
+
+ต้องแยก:
+
+HARD SAFETY
+
+ออกจาก:
+
+LEARNED EXPERIENCE ABOUT SAFETY
+
+Hard Boundary ยังคงได้รับการป้องกัน
+
+---
+
+Local AI / Qwen
+
+Qwen และ Local AI Model อื่น ๆ เป็นทรัพยากรด้านการรู้คิดที่เรียกใช้เมื่อจำเป็น
+
+             AE01M
+               │
+       ┌───────┴────────┐
+       │ Native Core    │
+       │ ขนาดเล็ก       │
+       └───────┬────────┘
+               │
+        Local AI เมื่อจำเป็น
+               │
+             Qwen
+
+ไม่ควรเรียก LLM ในทุก cognitive cycle
+
+ตัวอย่าง:
+
+งาน State ที่ง่าย
+    → Native Cognitive Core
+
+งานภาษา
+    → Local AI
+
+งาน Reasoning ที่ซับซ้อน
+    → Local AI + Cognitive Core
+
+งาน Deterministic
+    → Tool โดยตรง
+
+การแยกส่วนนี้สำคัญมาก เนื่องจากเครื่องเป้าหมายมี RAM ประมาณ 4 GB
+
+---
+
+ข้อจำกัดทรัพยากร
+
+โครงการออกแบบโดยคำนึงถึง Hardware ที่จำกัด:
+
+RAM        ≈ 4 GB
+CPU        จำกัด
+Storage    จำกัด
+Dependency ต่ำ
+Architecture Micro-Module
+Runtime    Stateful
+
+ลำดับความสำคัญ:
+
+- โมดูลขนาดเล็ก
+- Dependency ต่ำ
+- Memory มีขอบเขต
+- State Transition ชัดเจน
+- เรียก AI แบบ Trigger-based
+- ใช้ Disk สำหรับ Persistence เมื่อเหมาะสม
+- Regression Testing
+- Checkpoint / Recovery
+- ไม่ใช้ Framework ใหญ่โดยไม่จำเป็น
+
+โมเดลที่ใหญ่ขึ้นไม่ใช่คำตอบหลักของปัญหา Architecture
+
+---
+
+Brain Subsystem Simulator
+
+มีทิศทางการทดลองแยกสำหรับ Neural Subsystem Simulator ขนาดใหญ่:
+
+Hippocampus       40,000,000 logical cells
+Motor Cortex      60,000,000 logical cells
+--------------------------------------------
+รวม               100,000,000 logical cells
+
+โมเดล neuron ที่กำหนดไว้:
+
+Leaky Integrate-and-Fire (LIF)
+
+แนวทาง implementation:
+
+NumPy
+Vectorization
+Block / Chunk Processing
+
+ต้องไม่สร้าง Python Object จำนวน 100 ล้านตัว
+
+100M cells เป็นขนาดเชิงวิจัย/การจำลอง และ ไม่ใช่ข้อกำหนดว่าต้องรันทั้งระบบพร้อมกันบนเครื่อง RAM 4 GB
+
+AE01M Cognitive Runtime ที่ใช้งานจริงยังคงเป็น Micro-Architecture ขนาดเล็ก
+
+---
+
+Environment Simulator
+
+ก่อนต่อ Hardware จริง จะมี Text/State Simulator แบบเบา:
+
+World State
+Time
+Events
+Needs
+Actions
+Consequences
+Experience
+
+วงจร:
+
+World
+  ↓
+Perception
+  ↓
+AE01M
+  ↓
+Decision
+  ↓
+Action
+  ↓
+World Changes
+  ↓
+Experience
+  ↓
+Learning
+  ↺
+
+Simulator ทำหน้าที่เป็นสนามทดสอบ Autonomous Cognition โดยไม่ต้องเสี่ยงกับระบบจริง
+
+ยังไม่จำเป็นต้องใช้ 3D Simulator ขนาดใหญ่
+
+---
+
+Tools / Web / Environment
+
+ความสามารถภายนอกถือเป็นบริการรอบ Cognitive Core:
+
+Web
+Tools
+Computer
+MCP
+Local AI
+Sensors
+Robot
+
+สิ่งเหล่านี้ไม่ควรเป็นเจ้าของ Cognitive State
+
+ความสัมพันธ์ที่ต้องการ:
+
+Cognitive Core
+      ↓
+Action Request
+      ↓
+Safety / Permission
+      ↓
+Tool / Environment
+      ↓
+Result
+      ↓
+Experience
+
+เมื่อเพิ่ม Internet ในอนาคต จะใช้เป็นแหล่ง Research:
+
+Search
+ ↓
+Read
+ ↓
+Extract
+ ↓
+Validate
+ ↓
+Learn
+ ↓
+Memory
+
+ข้อมูลจากภายนอกไม่ควรถูกเขียนเข้า Trusted Memory โดยตรงโดยไม่มี Evaluation
+
+---
+
+Claude Code และโครงการภายนอก
+
+Claude Code และ Agent Framework อื่น ๆ ถูกใช้เป็น Reference Architecture / Infrastructure ไม่ใช่สมองของ AE01M
+
+แนวคิดที่สามารถศึกษาได้:
+
+- Agent Lifecycle
+- Capability Boundary
+- Tool Execution
+- Permission
+- Memory Ownership
+- Task Orchestration
+- Concurrency
+- Persistent State
+
+แต่ Cognitive Core ของ AE01M จะไม่ถูกแทนที่ด้วย Agent Loop จาก Framework ภายนอก
+
+เช่นเดียวกับ BrainCog ซึ่งใช้เป็นแหล่งศึกษาและอ้างอิงกลไก ไม่ได้ติดตั้งทั้ง Framework เป็น Dependency หลักของ AE01M
+
+หลักการเดียวกันใช้กับ Repository ภายนอกอื่น ๆ:
+
+External Project
+      ↓
+ศึกษา
+      ↓
+หา Mechanism ที่มีประโยชน์
+      ↓
+Extract Concept / Minimal Implementation
+      ↓
+Adapt เข้ากับ AE01M
+      ↓
+Focused Test
+      ↓
 Regression
-   ↓
-Integration
-   ↓
-Full Regression
-   ↓
-Git Audit
-   ↓
-Checkpoint
-   ↓
-Push
-```
 
-Verification Gates ที่ผ่านมา ครอบคลุม:
-
-- Real-time Cognition
-- Self-Learning
-- Identity Continuity
-- Development Evidence
-- Sequential Identity Transitions
-- Human-data Processing
-- Structured Memory
-- Identity Representation
-- Duplicate-safe Memory Import
-- Virtual Sensors
-- World Model
-- Body Actions
-- Environment
-- VirtualBody
-- Runtime Integration
-- Phase 5–9 Full Regression
-
-เมื่อเกิด Failure จะวิเคราะห์สาเหตุก่อนเปลี่ยน Implementation
+Architecture ของโครงการภายนอกจะไม่ถูกนำมาใช้เป็น Architecture ของ AE01M โดยอัตโนมัติ
 
 ---
 
-# 16. ข้อจำกัดทรัพยากร
+สถานะการพัฒนาปัจจุบัน
 
-เป้าหมายเริ่มต้น:
+Cognitive Architecture / AI Brain       ✅
+Perception                              ✅
+Current State                           ✅
+Working Memory                          ✅
+Episodic Memory                         ✅
+Semantic Memory                         ✅
+Identity / Self Model                   ✅
+Cognitive Loop                          ✅
+Learning Pipeline                       ✅
+Prediction / Reflection                 ✅
+Brain Integration                       ✅
+Action Module                           ✅
+Safety / Action Gate                    ✅
+Autonomous Step                         ✅
+Autonomous Runtime Loop                 ✅
+Goal / Intention / Teaching              ✅
+Memory Consolidation                    ✅
+Associative Recall Prototype             ✅
+Associative Recall → CognitiveLoop       ⚠️
+Semantic / Contextual Recall             ⏳
+Self-directed Learning Loop              ⏳
+Autonomous Perception → Think → Act      ⏳
+Persistent Memory / Continuity            ⏳
+Environment Interaction                  ⏳
+Autonomous Life Loop                     ⏳
+Long-term Cognitive Development          ⏳
+AE01M autonomous life                    ⏳
 
-```text
-RAM ≈ 4 GB
-```
+สถานะปัจจุบันของโครงการอยู่ที่ Associative Recall / Memory Stage
 
-RAM ต้องแบ่งให้กับ:
+Regression baseline ล่าสุดที่บันทึกไว้:
 
-```text
-OS
-Runtime
-AI Model
-KV Cache
-Memory Core
-Database
-Embedding
-Application
-```
+363 tests — OK
+
+Baseline นี้ถือเป็น Checkpoint ที่ต้องรักษาไว้ในการพัฒนาต่อ
+
+---
+
+Roadmap ปัจจุบัน
+
+Roadmap ถูกออกแบบให้ทำตามลำดับ:
+
+PHASE 0
+Foundation / Safety
+        ↓
+PHASE 1
+Newborn Micro-Brain
+        ↓
+PHASE 2
+Brain-like Memory
+        ↓
+PHASE 3
+Learning + Reflection
+        ↓
+PHASE 4
+Autonomous Cognitive Loop
+        ↓
+PHASE 5
+Self-directed Growth
+        ↓
+PHASE 6
+Local AI / Qwen
+        ↓
+PHASE 7
+Tools / Web / Computer
+        ↓
+PHASE 8
+Personal Assistant
+        ↓
+PHASE 9
+Embodiment / Robot
+
+ลำดับงานระยะใกล้:
+
+CURRENT
+Brain-like Memory
+      ↓
+Semantic / Contextual Recall
+      ↓
+Self-directed Learning Loop
+      ↓
+Autonomous Perception → Think → Decide → Act
+      ↓
+Persistent Memory / Continuity
+      ↓
+Environment Interaction
+      ↓
+Autonomous Life Loop
+      ↓
+Long-term Cognitive Development
+      ↓
+AE01M Personal Cognitive Assistant
+
+---
+
+กฎการพัฒนาโครงการ
+
+โครงการมีระบบป้องกัน Scope Creep อย่างชัดเจน
+
+ทุกงานต้องตอบ:
+
+1. งานนี้อยู่ Phase ไหน?
+2. แก้ปัญหาอะไร?
+3. ต่อกับ Module เดิมตัวไหน?
+4. กระทบไฟล์ / Contract ใด?
+5. จะพิสูจน์ความสำเร็จอย่างไร?
+
+ถ้าตอบไม่ได้ → ยังไม่ควร Implement
+
+---
+
+No Scope Creep
+
+ไอเดีย เช่น:
+
+Voice
+Vision
+Web
+Robot
+GUI
+New LLM
+Large Neural Network
+Advanced Self-awareness
+
+จะถูกส่งเข้า Future Backlog หากยังไม่จำเป็นกับ Phase ปัจจุบัน
+
+ไอเดียใหม่ไม่สามารถเปลี่ยน Roadmap ปัจจุบันโดยอัตโนมัติ
+
+---
+
+Test และ Regression Protection
+
+Workflow:
+
+Current Contract
+      ↓
+Implement
+      ↓
+Focused Tests
+      ↓
+Regression
+      ↓
+Architecture Check
+      ↓
+Git Checkpoint
+      ↓
+Next Task
+
+ห้ามลบหรือทำให้ Test อ่อนลงเพียงเพื่อให้ Implementation ผ่าน
+
+Test ที่ล้มเหลวถือเป็นข้อมูลเกี่ยวกับปัญหาของ Implementation ไม่ใช่เหตุผลในการลบ Test
+
+---
+
+Checkpoint และ Recovery
+
+ก่อนการแก้ไขที่มีความเสี่ยง:
+
+KNOWN GOOD CHECKPOINT
+        ↓
+EXPERIMENT
+        ↓
+PASS → Keep
+FAIL → Repair / Rollback
+
+Source Code, Persistent Cognitive State และ Experimental Data ต้องแยกจากกัน
+
+Experimental Data ต้องไม่เขียนทับ Identity หรือ Memory จริง
+
+---
+
+Definition of Success
+
+โครงการจะไม่ถือว่าสำเร็จเพียงเพราะ AE01M ตอบคำถามได้
+
+เกณฑ์ความสำเร็จระยะยาวคือ:
+
+รับ Goal
+      ↓
+เข้าใจ Goal
+      ↓
+เรียก Memory ที่เกี่ยวข้อง
+      ↓
+Reasoning
+      ↓
+สร้าง Intention
+      ↓
+ตรวจ Safety
+      ↓
+วางแผน
+      ↓
+ลงมือทำ
+      ↓
+สังเกตผล
+      ↓
+ตรวจสอบผล
+      ↓
+Reflection
+      ↓
+ระบุ Knowledge Gap
+      ↓
+สร้าง LearningTask ถัดไป
+      ↓
+เรียนรู้
+      ↓
+เก็บ Knowledge / Skill
+      ↓
+นำกลับมาใช้
+      ↓
+ดำเนินต่อ
+
+Milestone ที่สำคัญจึงไม่ใช่:
+
+«“AE01M ฉลาดขึ้น”»
+
+แต่คือ:
+
+«“AE01M สามารถระบุสิ่งที่ต้องเรียนรู้ เรียนรู้ จดจำ ประเมินผล และนำความสามารถที่ได้ไปใช้ในรอบถัดไป โดยไม่จำเป็นต้องให้ผู้พัฒนาฮาร์ดโค้ดคำตอบใหม่ทุกครั้ง”»
+
+---
+
+วิสัยทัศน์ระยะยาว
+
+                 NEWBORN
+                    │
+                    ▼
+                EXPERIENCE
+                    │
+                    ▼
+                  MEMORY
+                    │
+                    ▼
+                LEARNING
+                    │
+                    ▼
+               CAPABILITY
+                    │
+                    ▼
+                ADAPTATION
+                    │
+                    ▼
+              DEVELOPMENT
+                    │
+                    ▼
+          PERSONAL COGNITIVE ASSISTANT
+                    │
+                    ▼
+               EMBODIMENT
+                    │
+                    ▼
+                  ROBOT
+
+Robot จึงไม่ใช่จุดเริ่มต้น
+
+Robot คือ ร่างกายของ Cognitive System ที่ได้รับการพัฒนาในซอฟต์แวร์ก่อน
+
+---
+
+ปรัชญาหลักของโครงการ
+
+The Transcending Form ยึดหลัก:
+
+«อย่า Hard-code Intelligence หากสามารถสร้างกลไกที่เรียนรู้ความสามารถนั้นได้»
 
 ดังนั้นโครงการให้ความสำคัญกับ:
 
-- โมเดลขนาดเล็ก
-- Quantization
-- Data Structure ที่ใช้ Memory ต่ำ
-- Local Storage
-- Dependencies ขั้นต่ำ
-- Micro-modules
-- Incremental Implementation
+Mechanism
+   >
+Preloaded Knowledge
 
-Research Plan ระบุว่าโมเดล Quantized ขนาดประมาณ **1–2B** เหมาะกับเป้าหมาย RAM 4 GB ในช่วงเริ่มต้นมากกว่า 7B
+และ:
 
----
+Learning Capability
+   >
+Hard-coded Behavior
 
-# 17. Research Benchmarks
+โดยมีสิ่งเหล่านี้เป็น Boundary ที่ได้รับการป้องกัน:
 
-โครงการควรใช้ Benchmark ที่วัดผลได้แทนความรู้สึกส่วนตัว
-
-เป้าหมายการวิจัย:
-
-| Capability | Target |
-|---|---:|
-| Persistent Memory | ≥95% |
-| Important Memory Recall | ≥90% |
-| Continuous Event Memory | ≥90% |
-| Personality Consistency | ≥85% |
-| Learning from Experience | ≥80% |
-| Self-Model Consistency | ≥80% |
-| Real-Time Response | Defined benchmark |
-| Offline Operation | 100% |
-| Memory Integrity | 100% |
-| Autonomous Development | Long-term evaluation |
-
-ตัวเลขเหล่านี้เป็น Research Targets ไม่ใช่ข้ออ้างว่าระบบปัจจุบันทำได้ถึงระดับดังกล่าวแล้ว
+Safety
+Identity
+User Goals
+State Integrity
+Resource Limits
 
 ---
 
-# 18. สิ่งที่โครงการนี้ไม่ใช่
+เป้าหมายสุดท้ายของโครงการ
 
-ปัจจุบัน The Transcending Form ไม่ใช่:
+เป้าหมายระยะยาวของ AE01M คือการสร้าง Local Cognitive Architecture ขนาดเล็ก ที่เริ่มต้นเป็น Newborn Brain รับ Goal และการสอนจาก Owner สะสมประสบการณ์และความทรงจำ เรียนรู้จากผลลัพธ์ พัฒนาความสามารถ รักษาความต่อเนื่องข้าม Session และในระยะยาวทำงานเป็น Personal Cognitive Assistant ที่มีสถานะต่อเนื่อง รวมถึงสามารถพัฒนาไปสู่ระบบที่มีร่างกายและ Robot ได้
 
-- Chatbot Wrapper
-- Prompt-only Personality System
-- Cloud-only AI Service
-- ระบบที่พิสูจน์แล้วว่าสามารถถ่ายโอน Consciousness
-- Physical Robot-control System
-- Complete AGI Implementation
-- Unrestricted Self-modifying AI
+โครงการจะพัฒนาแบบค่อยเป็นค่อยไป
 
-โครงการนี้คือ Incremental Research Prototype สำหรับ Artificial Identity Architecture
+เราไม่ได้พยายามสร้าง AI สุดท้ายตั้งแต่วันแรก
+
+เป้าหมายแรกคือการสร้าง กลไกการรู้คิดที่เล็กที่สุดที่สามารถเรียนรู้และเติบโตได้ พิสูจน์ด้วยการทดลอง แล้วจึงปล่อยให้ความสามารถของระบบเพิ่มขึ้นจากพื้นฐานนั้น
 
 ---
 
-# 19. กฎทางวิศวกรรม
+สถานะโครงการ
 
-1. ทำ Phase ปัจจุบันให้เสร็จก่อนเข้าสู่ Phase ถัดไป
-2. ห้ามขยาย Scope โดยไม่มีการตัดสินใจอย่างชัดเจน
-3. ถือ RAM 4 GB เป็นข้อจำกัดด้านการออกแบบ
-4. ให้ความสำคัญกับโมดูลขนาดเล็กและ Explicit
-5. รักษา Identity Core ให้ Local/Offline
-6. แยก AI Model ออกจาก Identity
-7. เริ่มต้นจาก Newborn State
-8. แยก Original, Experience และ Learned State ในเชิงแนวคิด
-9. ทดสอบทุกการเปลี่ยนแปลงที่สำคัญ
-10. หลีกเลี่ยงไฟล์และ Dependencies ที่มีขนาดใหญ่โดยไม่จำเป็น
-11. ทำงานแบบ Incremental
-12. แยก Engineering Facts, Hypotheses และ Research Questions
-13. ห้ามอนุมาน Consciousness จากพฤติกรรมเพียงอย่างเดียว
-14. ห้ามสร้าง Threshold หรือ Algorithm ที่ยังไม่ได้กำหนด เพียงเพื่อให้ Gate ผ่าน
-15. รักษาพฤติกรรมที่ผ่านการ Validate แล้วเมื่อเข้าสู่ Phase ถัดไป
+งานที่กำลังมุ่งเน้น:
 
----
+Brain-like Memory
+        ↓
+Semantic / Contextual Recall
+        ↓
+Autonomous Learning Growth
 
-# 20. สถาปัตยกรรมระยะยาว
+Regression Baseline:
 
-```text
-                         ┌─────────────────────┐
-                         │      AI MODEL       │
-                         │  Cognitive Engine   │
-                         └──────────┬──────────┘
-                                    │
-                             cognition
-                                    │
-                 ┌──────────────────▼──────────────────┐
-                 │          IDENTITY CORE               │
-                 │                                      │
-                 │ Identity                             │
-                 │ Memory                               │
-                 │ Personality                          │
-                 │ Self Model                           │
-                 │ Learning State                       │
-                 │ Development                          │
-                 │ Identity Continuity                  │
-                 └──────────────────┬──────────────────┘
-                                    │
-                              embodiment
-                                    │
-                    ┌───────────────▼───────────────┐
-                    │          VIRTUAL BODY         │
-                    │ Sensors / World / Actions    │
-                    └───────────────┬───────────────┘
-                                    │
-                              future bridge
-                                    │
-                    ┌───────────────▼───────────────┐
-                    │            ROBOT              │
-                    │ Camera / Mic / Sensors       │
-                    │ Motors / Actuators           │
-                    └───────────────────────────────┘
-```
+363 tests — OK
 
-คุณสมบัติสำคัญทางสถาปัตยกรรมคือ:
+เป้าหมายระยะยาว:
 
-```text
-Identity Core ≠ Body
-```
+Newborn
+  ↓
+Learn
+  ↓
+Remember
+  ↓
+Think
+  ↓
+Act
+  ↓
+Reflect
+  ↓
+Develop
+  ↺
 
-Body เป็น Embodiment Layer
+The Transcending Form — AE01M
 
----
-
-# 21. สถานะปัจจุบัน
-
-```text
-THE TRANSCENDING FORM
-────────────────────────────────────────────
-
-Identity Core             ACTIVE
-Memory Core               ACTIVE
-Cognitive Engine          ACTIVE
-Real-Time Cognition       ACTIVE
-Self-Learning             ACTIVE
-Development Foundation    ACTIVE
-Human Data Foundation     ACTIVE
-Virtual Body Foundation   ACTIVE
-
-Physical Robot            NOT STARTED
-Consciousness Transfer    UNPROVEN
-```
-
-Latest Known Checkpoint จาก README ต้นฉบับ:
-
-```text
-fa1c555
-CHECKPOINT: Integrate virtual body foundation
-```
-
-Checkpoint ดังกล่าวถูก Push ไปยัง `origin/master`
-
----
-
-# 22. จุดยืนของงานวิจัย
-
-โครงการแยกคำถามออกเป็น 2 ส่วน
-
-### คำถามด้านวิศวกรรม
-
-เราสามารถสร้าง:
-
-```text
-Offline Agent
-+ Persistent Memory
-+ Learning
-+ Self Model
-+ Identity Continuity
-+ Development
-+ Human Data Representation
-+ Virtual Embodiment
-+ Eventually Robotics
-```
-
-ได้หรือไม่
-
-นี่คือคำถามด้าน Engineering และ Experimental Research
-
-### คำถามด้านวิทยาศาสตร์ / ปรัชญา
-
-ระบบดังกล่าวจะกลายเป็น:
-
-```text
-คนเดิม
-```
-
-หรือมี:
-
-```text
-Human Consciousness
-```
-
-หรือไม่
-
-คำถามนี้ยังไม่ได้รับคำตอบจาก Architecture ปัจจุบัน
-
-ดังนั้นโครงการจึงมุ่ง:
-
-> **สร้างระบบก่อน วัดผล เก็บประวัติของมัน และให้หลักฐานเป็นตัวกำหนดข้อสรุป**
-
----
-
-## Project
-
-**The Transcending Form**
-
-GitHub:
-
-https://github.com/Artid1994/THE_TRANSCENDING_FORM
-
-สถานะ: **Active Research / Engineering Prototype**
+«โครงการวิจัยเพื่อสำรวจว่า Local Cognitive Architecture ขนาดเล็กสามารถพัฒนาความสามารถผ่าน Memory, Experience, Learning และ Autonomous Cognitive Cycle ได้อย่างไร»
