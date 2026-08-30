@@ -1,708 +1,317 @@
-<div align="right">
-  <a href="README.th.md">ไทย</a> | <a href="README.md">English</a>
-</div>
+# AE01M — The Transcending Form
 
-AE01M — The Transcending Form
+**AE01M** คือโครงการทดลองสร้าง **Cognitive Architecture หรือ “สมองซอฟต์แวร์” ขนาดเล็ก** ที่เริ่มต้นจากสถานะคล้าย Newborn Brain แล้วค่อย ๆ เรียนรู้จากประสบการณ์ จดจำสิ่งที่เรียนรู้ ประเมินผล และพัฒนาความสามารถของตัวเอง
 
-«สถาปัตยกรรมการรู้คิดภายในเครื่อง สำหรับสร้างจิตประดิษฐ์เริ่มต้นแบบ Newborn Brain»
+เป้าหมายไม่ใช่การสร้าง Chatbot ที่มีคำตอบสำเร็จรูปจำนวนมาก แต่คือการสร้าง **กลไกพื้นฐานที่ทำให้ AI สามารถเรียนรู้และพัฒนาความสามารถจากประสบการณ์ได้**
 
-AE01M / The Transcending Form (TTF) เป็นโครงการทดลองสร้างสถาปัตยกรรมการรู้คิดภายในเครื่อง (Local Cognitive Architecture) ที่มีขนาดเล็ก มีสถานะต่อเนื่อง (stateful) และสามารถเริ่มต้นในสภาพ Newborn Brain จากนั้นเรียนรู้จากประสบการณ์ สะสมความทรงจำ พัฒนาความสามารถ และในระยะยาวทำงานเป็นผู้ช่วยส่วนตัวด้านการรู้คิดที่มีสถานะต่อเนื่องได้
+โครงการยังอยู่ในขั้นวิจัยและพัฒนา จึงไม่อ้างว่า AE01M มีจิตสำนึกหรือคิดเหมือนมนุษย์
 
-โครงการนี้ไม่ได้มุ่งสร้าง Chatbot ที่ต้องเรียก LLM เพื่อคิดในทุก cycle
+## แนวคิดหลัก
 
-เป้าหมายระยะยาวคือการสร้าง กลไกการรู้คิดที่อยู่รอบโมเดล AI เพื่อให้โมเดล AI เป็นเพียงองค์ประกอบหนึ่งของระบบ ไม่ใช่ตัวระบบทั้งหมด
+AE01M แยก “สมอง” ออกจาก “โมเดล AI”
 
----
-
-วิสัยทัศน์
-
-แนวคิดหลักคือ:
-
-สมองแรกเกิด (Newborn Brain)
-        ↓
-ประสบการณ์
-        ↓
-การรับรู้
-        ↓
-ความทรงจำ
-        ↓
-การรู้คิด
-        ↓
-เป้าหมาย / เจตจำนง
-        ↓
-การตัดสินใจ
-        ↓
-การกระทำ
-        ↓
-ผลตอบกลับ
-        ↓
-การสะท้อนผล
-        ↓
-การเรียนรู้
-        ↓
-การพัฒนา
-        ↺
-
-ระบบควรค่อย ๆ สะสมความรู้ ทักษะ กลยุทธ์ และความสามารถทางพฤติกรรมจากประสบการณ์ แทนที่จะเขียนความสามารถทั้งหมดไว้ล่วงหน้าแบบ hard-code
-
-เป้าหมายระยะยาวคือผู้ช่วยส่วนตัวที่มีพฤติกรรมในลักษณะ JARVIS ในระดับสถาปัตยกรรมและพฤติกรรม:
-
-ผู้ใช้
-  ↓
-AE01M
-  ↓
-เข้าใจ
-  ↓
-จดจำ
-  ↓
-ให้เหตุผล
-  ↓
-วางแผน
-  ↓
-ลงมือทำ
-  ↓
-ตรวจสอบผล
-  ↓
-เรียนรู้
-  ↓
-ปรับปรุง
-  ↺
-
-นี่เป็นโครงการวิจัยและทดลอง โครงการไม่ได้อ้างว่าระบบจะมีจิตสำนึก มีความคิดเหมือนมนุษย์ หรือมีสติปัญญาทั่วไป (AGI)
-
----
-
-หลักการแกนกลาง
-
-กฎสำคัญที่สุดของสถาปัตยกรรมคือ:
-
+```text
 AI Model ≠ Identity
 AI Model ≠ Memory
 AI Model ≠ Cognitive Runtime
+```
 
-โมเดล AI เช่น Qwen ถูกมองเป็นองค์ประกอบด้านการรู้คิด/ภาษา ซึ่งสามารถเปลี่ยนหรือถอดออกได้
+โมเดลอย่าง Qwen เป็นเครื่องมือสำหรับงานด้านภาษาและการให้เหตุผลที่ซับซ้อน ส่วน Cognitive Runtime, Memory, Learning และ State เป็นองค์ประกอบของ AE01M เอง
 
-Identity, Memory, Development State, Goal, Experience และ Runtime State ต้องอยู่นอกโมเดล
+แนวคิดคือให้ระบบมีความสามารถพื้นฐานก่อน แล้วให้ความรู้และทักษะเพิ่มขึ้นจากการเรียนรู้ แทนการ hard-code ความสามารถทั้งหมดตั้งแต่ต้น
 
-ทำให้สามารถเปลี่ยนโมเดล AI ได้โดยไม่ทำลาย Identity และสถานะที่ระบบสะสมมา
+## AE01M ทำงานอย่างไร
 
----
+วงจรหลักที่ต้องการสร้างคือ
 
-สิ่งที่เรากำลังสร้าง
+```text
+รับรู้
+  ↓
+เรียกความจำ
+  ↓
+คิด
+  ↓
+กำหนดเป้าหมาย / ความตั้งใจ
+  ↓
+ตัดสินใจ
+  ↓
+ลงมือทำ
+  ↓
+รับผลลัพธ์
+  ↓
+ประเมิน
+  ↓
+สะท้อนผล
+  ↓
+เรียนรู้
+  ↓
+อัปเดตความจำ
+  ↓
+นำสิ่งที่เรียนรู้ไปใช้ในรอบถัดไป
+  ↺
+```
 
-เราไม่ได้พยายามโปรแกรมหุ่นยนต์ให้ฉลาดสำเร็จรูป
+เป้าหมายระยะยาวคือให้วงจรนี้สามารถทำงานต่อเนื่องได้โดยไม่ต้องให้ผู้พัฒนาเรียกแต่ละขั้นตอนเอง
 
-เรากำลังสร้าง กลไกสำหรับการพัฒนาความสามารถทางการรู้คิด
+## การเรียนรู้
 
-ว่างเปล่า / NEWBORN
-        ↓
-การสอน
-        ↓
-ประสบการณ์
-        ↓
-ความทรงจำ
-        ↓
-การเรียนรู้
-        ↓
-ความสามารถ
-        ↓
-การปรับตัว
-        ↓
-การพัฒนา
-        ↓
-ประสบการณ์ใหม่
-        ↺
+หลักสำคัญคือแยก **เป้าหมาย** ออกจาก **วิธีการ**
 
-ผู้ใช้เป็นผู้กำหนดเป้าหมาย การสอน ขอบเขต และทรัพยากร
+ผู้ใช้กำหนดเป้าหมาย เช่น
 
-AE01M ควรค่อย ๆ เรียนรู้วิธีบรรลุเป้าหมายเหล่านั้น
+```text
+“สร้างโปรแกรมที่ทำงานได้ตามข้อกำหนด”
+```
 
-สิ่งที่ Learning สามารถเปลี่ยนได้:
+AE01M สามารถเรียนรู้และเปลี่ยนวิธีการเพื่อไปถึงเป้าหมายนั้นได้ เช่น
 
-- ความรู้
-- กลยุทธ์
-- ทักษะ
-- การคาดการณ์
-- วิธีการทำงาน
-- การแตกงาน
-- ความสัมพันธ์ที่เรียนรู้
+```text
+ค้นข้อมูล
+  ↓
+เรียนรู้
+  ↓
+ทดลอง
+  ↓
+ตรวจผล
+  ↓
+พบข้อผิดพลาด
+  ↓
+วิเคราะห์
+  ↓
+ปรับวิธี
+  ↓
+ทดลองใหม่
+```
 
-สิ่งที่ Learning ไม่ควรเปลี่ยนโดยพลการ:
+แต่การเรียนรู้ไม่ควรมีสิทธิ์เปลี่ยนเป้าหมายหลักของผู้ใช้หรือแก้ Core และ Safety Boundary โดยพลการ
 
-- เป้าหมายของ Owner/User
-- Hard Safety Boundary
-- Identity/Core State ที่ได้รับการป้องกัน
-- กลไกป้องกัน Runtime ที่สำคัญ
+ดังนั้น:
 
----
+```text
+เรียนรู้วิธีทำงาน       ✓
+สร้าง Learning Task     ✓
+เพิ่ม Knowledge         ✓
+ปรับ Strategy           ✓
 
-สถาปัตยกรรม
+เปลี่ยน User Goal       ✗
+แก้ Safety Core         ✗
+ทำลาย Identity/Core    ✗
+เขียนทับ Runtime เอง   ✗
+```
 
-สถาปัตยกรรมเชิงแนวคิดในปัจจุบัน:
+แนวคิดนี้ทำให้ AE01M สามารถพัฒนาความสามารถได้ โดยยังคงมีขอบเขตที่ควบคุมได้
 
-                         USER / OWNER
-                              │
-                        Goal / Teaching
-                              │
-                              ▼
-                           AE01M
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        │                     │                     │
-        ▼                     ▼                     ▼
-     Identity             Perception            Internal State
-        │                     │                     │
-        └─────────────────────┼─────────────────────┘
-                              ▼
-                          Attention
-                              │
-                              ▼
-                            Memory
-                              │
-                              ▼
-                          Cognition
-                              │
-                    ┌─────────┴─────────┐
-                    ▼                   ▼
-                  Goal              Intention
-                    └─────────┬─────────┘
-                              ▼
-                        Safety Boundary
-                              │
-                              ▼
-                           Decision
-                              │
-                              ▼
-                            Action
-                              │
-                              ▼
-                    Environment / Tools
-                              │
-                              ▼
-                          Feedback
-                              │
-                              ▼
-                         Reflection
-                              │
-                              ▼
-                          Learning
-                              │
-                              ▼
-                        Development
-                              │
-                              └───────────────↺
+## Memory — ความจำของ AE01M
 
-Cognitive Core ถูกออกแบบเป็นโมดูลขนาดเล็กหลายตัว ไม่ใช่ framework ขนาดใหญ่เพียงตัวเดียว
+Memory เป็นหนึ่งในส่วนสำคัญที่สุดของโครงการ
 
----
+ปัจจุบันมีพื้นฐานของ:
 
-Cognitive Cycle
-
-วงจรการรู้คิดพื้นฐานคือ:
-
-OBSERVE
-   ↓
-PERCEIVE
-   ↓
-RECALL
-   ↓
-THINK
-   ↓
-GOAL
-   ↓
-INTENTION
-   ↓
-SAFETY
-   ↓
-DECIDE
-   ↓
-ACT
-   ↓
-OBSERVE RESULT
-   ↓
-EVALUATE
-   ↓
-REFLECT
-   ↓
-LEARN
-   ↓
-UPDATE MEMORY
-   ↺
-
-ในอนาคต "autonomous_step()" จะเป็นตัวแทนของ cognitive cycle หนึ่งรอบ
-
-สถาปัตยกรรมตั้งใจแยก cognitive cycle ออกจาก scheduler หรือ background process อย่างชัดเจน โดยจะเพิ่มการทำงานอัตโนมัติแบบต่อเนื่องหลังจากพิสูจน์ state transition และ lifecycle แล้ว
-
----
-
-Newborn Micro-Brain
-
-สมองเริ่มต้นควรมีขนาดเล็กที่สุดเท่าที่จำเป็น
-
-เป้าหมายไม่ใช่ preload ความรู้จำนวนมาก
-
-แต่ละ instance ใหม่ควรเริ่มต้นในลักษณะ:
-
-Knowledge       = น้อยที่สุด
-Experience      = ว่าง
-Episodic Memory = ว่าง
-Semantic Memory = ว่าง
-Skills          = ขั้นต่ำ
-Goals           = ได้รับจากภายนอก
-Identity        = โครงสร้างสถานะที่ได้รับการป้องกัน
-
-กลไกสำหรับเรียนรู้จะมีอยู่ก่อนที่ความรู้จะมี
-
-จึงสามารถแยก:
-
-Knowledge
-
-ออกจาก:
-
-ความสามารถในการเรียนรู้ Knowledge
-
-สิ่งที่สองคือสิ่งที่โครงการพยายามสร้างเป็นหลัก
-
----
-
-Memory Architecture
-
-Memory เป็นหนึ่งในองค์ประกอบหลักของ AE01M
-
-Foundation ปัจจุบันประกอบด้วย:
-
+```text
 Working Memory
 Episodic Memory
 Semantic Memory
-Experience Objects
+Experience
 Recall Index
 Semantic Index
 Memory Consolidation
+Associative Recall
+```
 
-เป้าหมายของ Brain-like Memory คือ:
+แนวทางที่กำลังพัฒนาคือทำให้ Memory มีลักษณะเป็นระบบที่สามารถเลือก เชื่อมโยง รวม และเรียกคืนข้อมูลได้มากกว่าเพียงการเก็บข้อความเป็นรายการ
 
+เป้าหมายของ Brain-like Memory คือ
+
+```text
 Experience
-   ↓
+  ↓
 Salience
-   ↓
+  ↓
 Working Memory
-   ↓
+  ↓
 Episodic Memory
-   ↓
+  ↓
 Association
-   ↓
+  ↓
 Consolidation
-   ↓
+  ↓
 Semantic Memory
-   ↓
+  ↓
 Recall
-   ↓
+  ↓
 Cognition
+```
 
-กลไก Memory ในระยะต่อไปประกอบด้วย:
+ในอนาคตสามารถพัฒนาไปสู่แนวคิด **Computational Memory Cell** ซึ่งเป็นหน่วยความจำเชิงซอฟต์แวร์ที่มีข้อมูล เช่น ความสำคัญ ความมั่นใจ จำนวนครั้งที่ถูกเรียกใช้ และความสัมพันธ์กับความทรงจำอื่น
 
-- Associative Recall
-- Contextual Recall
-- Salience
-- Novelty
-- Relevance
-- Confidence
-- Repetition
-- Consolidation
-- Decay
-- Forgetting
-- Reconsolidation
-- Self Memory
-- Memory Association
+ไม่ได้หมายความว่า Cell เหล่านี้คือ neuron จริง แต่เป็น abstraction สำหรับทดลองกลไกความจำ
 
-เป้าหมายไม่ใช่สร้างฐานข้อมูลข้อความแบบไม่จำกัด
+## Reflection
 
-เป้าหมายคือสร้างกลไก Memory ที่สามารถพิจารณาว่าอะไรมีประโยชน์ อะไรเกี่ยวข้อง อะไรควร consolidate และอะไรควรถูกพัฒนาเป็นความรู้
+หลังจาก AE01M ทำงาน จะต้องสามารถประเมินผลที่เกิดขึ้นได้
 
----
-
-Cell-Based Memory
-
-สถาปัตยกรรม Memory ในอนาคตจะใช้แนวคิด Computational Memory Cell
-
-Cell เหล่านี้เป็น abstraction ทางซอฟต์แวร์ ไม่ได้หมายความว่าเป็น neuron ทางชีววิทยาโดยตรง
-
-AE01M Memory
-│
-├── Working Cells
-├── Episodic Cells
-├── Association Cells
-├── Semantic Cells
-├── Self Cells
-└── Safety Cells
-
-ข้อมูลของ Cell อาจประกอบด้วย:
-
-id
-type
-content
-associations
-salience
-confidence
-access_count
-created_at
-last_access
-source_refs
-
-Memory ต้องมีขนาดจำกัด
-
-เมื่อเกิด Memory Pressure:
-
-New Experience
-      ↓
-ตรวจสอบความจุ Memory
-      ↓
-Consolidation
-      ↓
-Merge / Promote / Forget
-      ↓
-คืนพื้นที่
-      ↓
-บันทึกประสบการณ์ใหม่
-
-สถาปัตยกรรม Cell ไม่ได้มีเป้าหมายลบ Memory architecture เดิม แต่เป็นชั้นสำหรับจัดระเบียบและจัดเก็บข้อมูล โดยต้องรักษา interface และ regression behavior เดิมไว้
-
----
-
-Associative Memory
-
-ปัจจุบันมีต้นแบบ Associative Recall แล้ว แต่ Contextual / Semantic Recall ยังอยู่ระหว่างการพัฒนา
-
-เป้าหมายคือ:
-
-Memory A
-   ↕
-Association
-   ↕
-Memory B
-   ↕
-Association
-   ↕
-Memory C
-
-เพื่อให้สามารถเรียกคืน Memory จาก:
-
-- บริบท
-- ความสัมพันธ์ทางความหมาย
-- ประสบการณ์ที่ผ่านมา
-- Salience
-- Relevance
-- Association
-
-แทนการพึ่งพา Exact String Matching เพียงอย่างเดียว
-
----
-
-Learning
-
-Learning Pipeline มีรูปแบบ:
-
-Experience
-   ↓
-Candidate
-   ↓
-Evaluation
-   ↓
-Memory
-   ↓
+```text
+ผลลัพธ์
+  ↓
 Reflection
-   ↓
-Development
+  ├── สำเร็จ
+  ├── ล้มเหลว
+  └── ขาดความรู้
+```
 
-หลักสำคัญคือ:
+หากพบว่าความรู้ยังไม่เพียงพอ เป้าหมายระยะยาวคือให้ระบบสามารถสร้าง Learning Task ถัดไปเองได้
 
-Learning เปลี่ยน "วิธีการ" เพื่อบรรลุเป้าหมาย
-
-ไม่ใช่:
-
-Learning เปลี่ยน "เป้าหมาย" ของ Owner โดยพลการ
-
-ตัวอย่าง:
-
-เป้าหมายของผู้ใช้:
-เรียนรู้ BLE บน ESP32
-
-AE01M:
-ค้นคว้า
- ↓
-ทดลอง
- ↓
-ล้มเหลว
- ↓
-Reflection
- ↓
-พบ Knowledge Gap
- ↓
-สร้าง LearningTask ถัดไป
- ↓
-เรียนรู้ใหม่
-
-ผู้ใช้ไม่จำเป็นต้องกำหนดทุกบทเรียนย่อยด้วยตนเอง
-
----
-
-Reflection
-
-Reflection ทำหน้าที่เปลี่ยนประสบการณ์ให้กลายเป็น Learning
-
-Reflection สามารถระบุ:
-
-SUCCESS
-FAILURE
-MISSING_KNOWLEDGE
-
-และสร้าง:
-
-Lesson
-Next Learning Task
-
-เป้าหมาย Autonomous Learning Loop:
-
+```text
 Goal
- ↓
+  ↓
 Task
- ↓
-Research / Experiment
- ↓
-Result
- ↓
+  ↓
+ทำงาน
+  ↓
 Reflection
- ↓
-มี Knowledge Gap หรือไม่?
- ├── NO → ดำเนินการ / เสร็จสิ้น
- │
- └── YES
-       ↓
-   New LearningTask
-       ↓
-      Learn
-       ↺
-
----
-
-Autonomous Growth
-
-AE01M จะถือว่าเริ่มมี Growth Loop จริงเมื่อสามารถ:
-
-1. จดจำประสบการณ์ของตัวเองได้
-2. ประเมินได้ว่าตัวเองยังขาดอะไร
-3. สร้างและทำ LearningTask ถัดไปได้เอง
-
-วงจรเป้าหมาย:
-
-Observe
-   ↓
-Think
-   ↓
-Act
-   ↓
-Evaluate
-   ↓
-Reflect
-   ↓
-Identify Knowledge Gap
-   ↓
-Create LearningTask
-   ↓
+  ↓
+Missing Knowledge
+  ↓
+New Learning Task
+  ↓
 Learn
-   ↓
-Consolidate
-   ↓
-Update Memory
-   ↓
-Reuse Knowledge
-   ↺
-
-นี่คือคำจำกัดความของ Autonomous Growth ในโครงการ
-
-ไม่ได้หมายความว่าระบบมีจิตสำนึก
-
----
-
-Goal / Intention / Teaching
-
-ผู้ใช้คือ Owner และเป็นแหล่งกำหนดเป้าหมายระดับสูง
-
-ลำดับการควบคุม:
-
-USER COMMAND
-     ↓
-UNDERSTAND
-     ↓
-GOAL
-     ↓
-INTENTION
-     ↓
-SAFETY
-     ↓
-DECISION
-     ↓
-ACTION
-
-AE01M สามารถเรียนรู้วิธีที่ดีขึ้นเพื่อบรรลุเป้าหมาย
-
-แต่ไม่ควรเปลี่ยนเป้าหมายของ Owner โดยเงียบ ๆ
-
-ระบบ Teaching ในระยะยาว:
-
-Teaching Guide
-      ↓
-Learning Goal
-      ↓
-Learning Task
-      ↓
-Research
-      ↓
-Experiment
-      ↓
-Evaluation
-      ↓
+  ↓
 Memory
-      ↓
-Skill
+  ↺
+```
 
-คู่มือควรกำหนดสิ่งที่ต้องเรียนและวิธีประเมินผล โดยไม่จำเป็นต้องบรรจุคำตอบทั้งหมดไว้ล่วงหน้า
+## Autonomous Growth
 
----
+คำว่า “เติบโตเอง” ในโครงการมีความหมายทางวิศวกรรม ไม่ได้หมายถึงการมีจิตสำนึก
 
-Safety Architecture
+AE01M จะถือว่าเริ่มมี Growth Loop เมื่อสามารถทำได้ครบ:
 
-Safety เป็นขอบเขตทางสถาปัตยกรรมที่ได้รับการป้องกัน
+1. จำประสบการณ์ของตัวเอง
+2. ประเมินได้ว่าความรู้ยังไม่เพียงพอ
+3. สร้างและทำ Learning Task ถัดไป
+4. นำสิ่งที่เรียนรู้กลับมาใช้
+5. ประเมินผลใหม่
 
-Cognition
-   ↓
-Thought / Intention
-   ↓
-Cognitive Safety Gate
-   ↓
-Decision
-   ↓
-Action
+วงจรเป้าหมายคือ
 
-Hard Safety Boundary ต้องได้รับการป้องกันจาก Learning ปกติ
+```text
+Observe
+  ↓
+Think
+  ↓
+Act
+  ↓
+Evaluate
+  ↓
+Reflect
+  ↓
+Identify Knowledge Gap
+  ↓
+Learn
+  ↓
+Consolidate
+  ↓
+Reuse
+  ↺
+```
 
-ระบบสามารถเรียนรู้ประสบการณ์เกี่ยวกับความปลอดภัยได้ แต่ข้อมูลที่เรียนรู้ไม่ควรถูกเปลี่ยนเป็น Hard Rule ถาวรโดยอัตโนมัติ
+จุดนี้ยังเป็นเป้าหมายที่กำลังพัฒนา ไม่ใช่ความสามารถที่ควรอ้างว่าสมบูรณ์แล้ว
 
-ต้องแยก:
+## Internet และการเรียนรู้
 
-HARD SAFETY
-
-ออกจาก:
-
-LEARNED EXPERIENCE ABOUT SAFETY
-
-Hard Boundary ยังคงได้รับการป้องกัน
-
----
-
-Local AI / Qwen
-
-Qwen และ Local AI Model อื่น ๆ เป็นทรัพยากรด้านการรู้คิดที่เรียกใช้เมื่อจำเป็น
-
-             AE01M
-               │
-       ┌───────┴────────┐
-       │ Native Core    │
-       │ ขนาดเล็ก       │
-       └───────┬────────┘
-               │
-        Local AI เมื่อจำเป็น
-               │
-             Qwen
-
-ไม่ควรเรียก LLM ในทุก cognitive cycle
+ในระยะต่อไป Internet สามารถเป็นหนึ่งในแหล่งข้อมูลสำหรับการเรียนรู้ของ AE01M
 
 ตัวอย่าง:
 
-งาน State ที่ง่าย
-    → Native Cognitive Core
+```text
+Knowledge Gap
+  ↓
+Learning Task
+  ↓
+ค้นข้อมูล
+  ↓
+อ่านหลายแหล่ง
+  ↓
+เปรียบเทียบ
+  ↓
+ทดลอง / ตรวจสอบ
+  ↓
+ประเมิน
+  ↓
+Memory
+```
 
-งานภาษา
-    → Local AI
+ข้อมูลจาก Internet ไม่ควรถูกถือว่าเป็นความจริงทันที แต่ควรผ่านการประเมินก่อนนำเข้าสู่ความรู้ที่ระบบเชื่อถือ
 
-งาน Reasoning ที่ซับซ้อน
-    → Local AI + Cognitive Core
+## การใช้ Local AI
 
-งาน Deterministic
-    → Tool โดยตรง
+AE01M ถูกออกแบบให้ Local AI เป็น **ส่วนประกอบ** ไม่ใช่สมองทั้งหมด
 
-การแยกส่วนนี้สำคัญมาก เนื่องจากเครื่องเป้าหมายมี RAM ประมาณ 4 GB
+```text
+              AE01M
+                │
+        ┌───────┴────────┐
+        │ Cognitive Core │
+        └───────┬────────┘
+                │
+       ┌────────┴────────┐
+       ↓                 ↓
+ Native Runtime       Local AI
+                         │
+                        Qwen
+```
 
----
+งานที่เป็น deterministic ควรให้ Python หรือระบบภายในจัดการโดยตรง
 
-ข้อจำกัดทรัพยากร
+งานด้านภาษา การตีความ หรือ reasoning ที่ซับซ้อนจึงค่อยเรียก Local AI
 
-โครงการออกแบบโดยคำนึงถึง Hardware ที่จำกัด:
+เป้าหมายคือไม่ต้องเรียก LLM ในทุก cognitive cycle และลดภาระด้านทรัพยากร
 
-RAM        ≈ 4 GB
-CPU        จำกัด
-Storage    จำกัด
-Dependency ต่ำ
-Architecture Micro-Module
-Runtime    Stateful
+## Research Engine
 
-ลำดับความสำคัญ:
+อีกแนวคิดหนึ่งของโครงการคือให้ Python เป็น “ห้องทดลอง” ของ AE01M
 
-- โมดูลขนาดเล็ก
-- Dependency ต่ำ
-- Memory มีขอบเขต
-- State Transition ชัดเจน
-- เรียก AI แบบ Trigger-based
-- ใช้ Disk สำหรับ Persistence เมื่อเหมาะสม
-- Regression Testing
-- Checkpoint / Recovery
-- ไม่ใช้ Framework ใหญ่โดยไม่จำเป็น
+```text
+AE01M
+  ↓
+Hypothesis
+  ↓
+Python Experiment
+  ↓
+Simulation / Calculation
+  ↓
+Metrics
+  ↓
+Evaluation
+  ↓
+Memory
+  ↓
+Hypothesis ใหม่
+  ↺
+```
 
-โมเดลที่ใหญ่ขึ้นไม่ใช่คำตอบหลักของปัญหา Architecture
+Python จึงสามารถรับผิดชอบงานคำนวณ ทดลอง เปรียบเทียบผล และวัดประสิทธิภาพ ขณะที่ AI ช่วยเสนอสมมติฐาน วิเคราะห์ผล และตีความข้อมูล
 
----
+แนวทางนี้ช่วยลดการใช้ LLM ในงานที่ Python สามารถทำได้แม่นยำกว่า
 
-Brain Subsystem Simulator
+## Simulator
 
-มีทิศทางการทดลองแยกสำหรับ Neural Subsystem Simulator ขนาดใหญ่:
+โครงการมีแนวคิดสร้าง Simulator เป็นสนามทดลองสำหรับ Cognitive Loop
 
-Hippocampus       40,000,000 logical cells
-Motor Cortex      60,000,000 logical cells
---------------------------------------------
-รวม               100,000,000 logical cells
+ระยะแรกเน้น **Text/State Simulator** ที่มีองค์ประกอบพื้นฐาน เช่น
 
-โมเดล neuron ที่กำหนดไว้:
-
-Leaky Integrate-and-Fire (LIF)
-
-แนวทาง implementation:
-
-NumPy
-Vectorization
-Block / Chunk Processing
-
-ต้องไม่สร้าง Python Object จำนวน 100 ล้านตัว
-
-100M cells เป็นขนาดเชิงวิจัย/การจำลอง และ ไม่ใช่ข้อกำหนดว่าต้องรันทั้งระบบพร้อมกันบนเครื่อง RAM 4 GB
-
-AE01M Cognitive Runtime ที่ใช้งานจริงยังคงเป็น Micro-Architecture ขนาดเล็ก
-
----
-
-Environment Simulator
-
-ก่อนต่อ Hardware จริง จะมี Text/State Simulator แบบเบา:
-
+```text
 World State
 Time
 Events
-Needs
 Actions
 Consequences
 Experience
+```
 
-วงจร:
+วงจรคือ
 
+```text
 World
   ↓
 Perception
@@ -719,100 +328,78 @@ Experience
   ↓
 Learning
   ↺
+```
 
-Simulator ทำหน้าที่เป็นสนามทดสอบ Autonomous Cognition โดยไม่ต้องเสี่ยงกับระบบจริง
+เป้าหมายคือใช้ Simulator ทดสอบการเรียนรู้และการทำงานอัตโนมัติก่อนเชื่อมต่อกับระบบจริง
 
-ยังไม่จำเป็นต้องใช้ 3D Simulator ขนาดใหญ่
+## Brain Subsystem Simulator
 
----
+โครงการยังมีแนวคิดสำหรับการจำลองระบบประสาทในระดับใหญ่เพื่อการทดลอง
 
-Tools / Web / Environment
+```text
+Hippocampus      40,000,000 logical cells
+Motor Cortex     60,000,000 logical cells
+--------------------------------------------
+รวม             100,000,000 logical cells
+```
 
-ความสามารถภายนอกถือเป็นบริการรอบ Cognitive Core:
+แนวทางที่กำหนดไว้คือใช้โมเดล **Leaky Integrate-and-Fire (LIF)** ร่วมกับ NumPy, vectorization และ block/chunk processing
 
-Web
-Tools
-Computer
-MCP
-Local AI
-Sensors
-Robot
+100 ล้านเซลล์นี้เป็น **ขนาดเชิงตรรกะของการจำลอง** ไม่ใช่ข้อกำหนดว่าจะต้องสร้าง Python object จำนวน 100 ล้านตัว หรือรันทั้งหมดพร้อมกันบนเครื่อง RAM 4 GB
 
-สิ่งเหล่านี้ไม่ควรเป็นเจ้าของ Cognitive State
+ส่วน Cognitive Core ที่ใช้งานจริงยังคงเน้น Micro-Architecture ขนาดเล็ก
 
-ความสัมพันธ์ที่ต้องการ:
+## ข้อจำกัดด้านทรัพยากร
 
-Cognitive Core
-      ↓
-Action Request
-      ↓
-Safety / Permission
-      ↓
-Tool / Environment
-      ↓
-Result
-      ↓
-Experience
+AE01M ถูกออกแบบโดยคำนึงถึงเครื่องที่มีทรัพยากรจำกัด ประมาณ:
 
-เมื่อเพิ่ม Internet ในอนาคต จะใช้เป็นแหล่ง Research:
+```text
+RAM       ~ 4 GB
+CPU       จำกัด
+Dependency ต่ำ
+Architecture แบบ Micro-Module
+Stateful Runtime
+```
 
-Search
- ↓
-Read
- ↓
-Extract
- ↓
-Validate
- ↓
-Learn
- ↓
-Memory
+ดังนั้นโครงการให้ความสำคัญกับ:
 
-ข้อมูลจากภายนอกไม่ควรถูกเขียนเข้า Trusted Memory โดยตรงโดยไม่มี Evaluation
+```text
+โมดูลขนาดเล็ก
+ใช้ทรัพยากรเท่าที่จำเป็น
+ไม่พึ่ง Framework ขนาดใหญ่โดยไม่จำเป็น
+ใช้ Local AI เฉพาะเมื่อจำเป็น
+จัดการ State อย่างชัดเจน
+มี Test และ Regression
+มี Checkpoint / Recovery
+```
 
----
+## BrainCog และโครงการภายนอก
 
-Claude Code และโครงการภายนอก
+BrainCog และโครงการวิจัยอื่น ๆ ใช้เป็นแหล่งศึกษาและอ้างอิงกลไก ไม่ได้หมายความว่าจะนำ Framework ทั้งหมดมาเป็น dependency ของ AE01M
 
-Claude Code และ Agent Framework อื่น ๆ ถูกใช้เป็น Reference Architecture / Infrastructure ไม่ใช่สมองของ AE01M
+หลักการคือ
 
-แนวคิดที่สามารถศึกษาได้:
+```text
+ศึกษาของที่มีอยู่
+  ↓
+หาแนวคิดที่พิสูจน์แล้ว
+  ↓
+คัดเฉพาะกลไกที่จำเป็น
+  ↓
+ปรับให้เข้ากับ AE01M
+  ↓
+ทดสอบ
+  ↓
+รักษา Regression
+```
 
-- Agent Lifecycle
-- Capability Boundary
-- Tool Execution
-- Permission
-- Memory Ownership
-- Task Orchestration
-- Concurrency
-- Persistent State
+แนวทางเดียวกันใช้กับ Agent Architecture และงานวิจัยอื่น ๆ
 
-แต่ Cognitive Core ของ AE01M จะไม่ถูกแทนที่ด้วย Agent Loop จาก Framework ภายนอก
+## สถานะปัจจุบัน
 
-เช่นเดียวกับ BrainCog ซึ่งใช้เป็นแหล่งศึกษาและอ้างอิงกลไก ไม่ได้ติดตั้งทั้ง Framework เป็น Dependency หลักของ AE01M
+จากสถานะโครงการล่าสุดที่บันทึกไว้:
 
-หลักการเดียวกันใช้กับ Repository ภายนอกอื่น ๆ:
-
-External Project
-      ↓
-ศึกษา
-      ↓
-หา Mechanism ที่มีประโยชน์
-      ↓
-Extract Concept / Minimal Implementation
-      ↓
-Adapt เข้ากับ AE01M
-      ↓
-Focused Test
-      ↓
-Regression
-
-Architecture ของโครงการภายนอกจะไม่ถูกนำมาใช้เป็น Architecture ของ AE01M โดยอัตโนมัติ
-
----
-
-สถานะการพัฒนาปัจจุบัน
-
+```text
 Cognitive Architecture / AI Brain       ✅
 Perception                              ✅
 Current State                           ✅
@@ -831,7 +418,7 @@ Autonomous Runtime Loop                 ✅
 Goal / Intention / Teaching              ✅
 Memory Consolidation                    ✅
 Associative Recall Prototype             ✅
-Associative Recall → CognitiveLoop       ⚠️
+
 Semantic / Contextual Recall             ⏳
 Self-directed Learning Loop              ⏳
 Autonomous Perception → Think → Act      ⏳
@@ -839,27 +426,21 @@ Persistent Memory / Continuity            ⏳
 Environment Interaction                  ⏳
 Autonomous Life Loop                     ⏳
 Long-term Cognitive Development          ⏳
-AE01M autonomous life                    ⏳
+AE01M ใช้ชีวิตเองได้                     ⏳
+```
 
-สถานะปัจจุบันของโครงการอยู่ที่ Associative Recall / Memory Stage
+สถานะที่บันทึกไว้ระบุว่า Associative Recall เชื่อมเข้ากับ CognitiveLoop แล้ว แต่ Recall ยังไม่ถึงระดับ Semantic/Contextual Recall เต็มรูปแบบ
 
-Regression baseline ล่าสุดที่บันทึกไว้:
+## Roadmap
 
-363 tests — OK
+ทิศทางหลักของโครงการคือ
 
-Baseline นี้ถือเป็น Checkpoint ที่ต้องรักษาไว้ในการพัฒนาต่อ
-
----
-
-Roadmap ปัจจุบัน
-
-Roadmap ถูกออกแบบให้ทำตามลำดับ:
-
+```text
 PHASE 0
 Foundation / Safety
         ↓
 PHASE 1
-Newborn Micro-Brain
+Newborn Brain Mechanism
         ↓
 PHASE 2
 Brain-like Memory
@@ -884,264 +465,47 @@ Personal Assistant
         ↓
 PHASE 9
 Embodiment / Robot
+```
 
-ลำดับงานระยะใกล้:
+ลำดับนี้อาจปรับวิธีดำเนินงานได้ตามผลการทดลอง แต่เป้าหมายหลักของโครงการไม่ควรถูกเปลี่ยนเพียงเพราะ implementation ของขั้นใดขั้นหนึ่งยาก
 
-CURRENT
-Brain-like Memory
-      ↓
-Semantic / Contextual Recall
-      ↓
-Self-directed Learning Loop
-      ↓
-Autonomous Perception → Think → Decide → Act
-      ↓
-Persistent Memory / Continuity
-      ↓
-Environment Interaction
-      ↓
-Autonomous Life Loop
-      ↓
-Long-term Cognitive Development
-      ↓
-AE01M Personal Cognitive Assistant
+## เป้าหมายระยะยาว
 
----
+เป้าหมายของ AE01M คือสร้างผู้ช่วยส่วนตัวที่มี Cognitive Runtime ต่อเนื่อง และสามารถ:
 
-กฎการพัฒนาโครงการ
-
-โครงการมีระบบป้องกัน Scope Creep อย่างชัดเจน
-
-ทุกงานต้องตอบ:
-
-1. งานนี้อยู่ Phase ไหน?
-2. แก้ปัญหาอะไร?
-3. ต่อกับ Module เดิมตัวไหน?
-4. กระทบไฟล์ / Contract ใด?
-5. จะพิสูจน์ความสำเร็จอย่างไร?
-
-ถ้าตอบไม่ได้ → ยังไม่ควร Implement
-
----
-
-No Scope Creep
-
-ไอเดีย เช่น:
-
-Voice
-Vision
-Web
-Robot
-GUI
-New LLM
-Large Neural Network
-Advanced Self-awareness
-
-จะถูกส่งเข้า Future Backlog หากยังไม่จำเป็นกับ Phase ปัจจุบัน
-
-ไอเดียใหม่ไม่สามารถเปลี่ยน Roadmap ปัจจุบันโดยอัตโนมัติ
-
----
-
-Test และ Regression Protection
-
-Workflow:
-
-Current Contract
-      ↓
-Implement
-      ↓
-Focused Tests
-      ↓
-Regression
-      ↓
-Architecture Check
-      ↓
-Git Checkpoint
-      ↓
-Next Task
-
-ห้ามลบหรือทำให้ Test อ่อนลงเพียงเพื่อให้ Implementation ผ่าน
-
-Test ที่ล้มเหลวถือเป็นข้อมูลเกี่ยวกับปัญหาของ Implementation ไม่ใช่เหตุผลในการลบ Test
-
----
-
-Checkpoint และ Recovery
-
-ก่อนการแก้ไขที่มีความเสี่ยง:
-
-KNOWN GOOD CHECKPOINT
-        ↓
-EXPERIMENT
-        ↓
-PASS → Keep
-FAIL → Repair / Rollback
-
-Source Code, Persistent Cognitive State และ Experimental Data ต้องแยกจากกัน
-
-Experimental Data ต้องไม่เขียนทับ Identity หรือ Memory จริง
-
----
-
-Definition of Success
-
-โครงการจะไม่ถือว่าสำเร็จเพียงเพราะ AE01M ตอบคำถามได้
-
-เกณฑ์ความสำเร็จระยะยาวคือ:
-
-รับ Goal
-      ↓
-เข้าใจ Goal
-      ↓
-เรียก Memory ที่เกี่ยวข้อง
-      ↓
-Reasoning
-      ↓
-สร้าง Intention
-      ↓
-ตรวจ Safety
-      ↓
-วางแผน
-      ↓
-ลงมือทำ
-      ↓
-สังเกตผล
-      ↓
-ตรวจสอบผล
-      ↓
-Reflection
-      ↓
-ระบุ Knowledge Gap
-      ↓
-สร้าง LearningTask ถัดไป
-      ↓
-เรียนรู้
-      ↓
-เก็บ Knowledge / Skill
-      ↓
-นำกลับมาใช้
-      ↓
-ดำเนินต่อ
-
-Milestone ที่สำคัญจึงไม่ใช่:
-
-«“AE01M ฉลาดขึ้น”»
-
-แต่คือ:
-
-«“AE01M สามารถระบุสิ่งที่ต้องเรียนรู้ เรียนรู้ จดจำ ประเมินผล และนำความสามารถที่ได้ไปใช้ในรอบถัดไป โดยไม่จำเป็นต้องให้ผู้พัฒนาฮาร์ดโค้ดคำตอบใหม่ทุกครั้ง”»
-
----
-
-วิสัยทัศน์ระยะยาว
-
-                 NEWBORN
-                    │
-                    ▼
-                EXPERIENCE
-                    │
-                    ▼
-                  MEMORY
-                    │
-                    ▼
-                LEARNING
-                    │
-                    ▼
-               CAPABILITY
-                    │
-                    ▼
-                ADAPTATION
-                    │
-                    ▼
-              DEVELOPMENT
-                    │
-                    ▼
-          PERSONAL COGNITIVE ASSISTANT
-                    │
-                    ▼
-               EMBODIMENT
-                    │
-                    ▼
-                  ROBOT
-
-Robot จึงไม่ใช่จุดเริ่มต้น
-
-Robot คือ ร่างกายของ Cognitive System ที่ได้รับการพัฒนาในซอฟต์แวร์ก่อน
-
----
-
-ปรัชญาหลักของโครงการ
-
-The Transcending Form ยึดหลัก:
-
-«อย่า Hard-code Intelligence หากสามารถสร้างกลไกที่เรียนรู้ความสามารถนั้นได้»
-
-ดังนั้นโครงการให้ความสำคัญกับ:
-
-Mechanism
-   >
-Preloaded Knowledge
-
-และ:
-
-Learning Capability
-   >
-Hard-coded Behavior
-
-โดยมีสิ่งเหล่านี้เป็น Boundary ที่ได้รับการป้องกัน:
-
-Safety
-Identity
-User Goals
-State Integrity
-Resource Limits
-
----
-
-เป้าหมายสุดท้ายของโครงการ
-
-เป้าหมายระยะยาวของ AE01M คือการสร้าง Local Cognitive Architecture ขนาดเล็ก ที่เริ่มต้นเป็น Newborn Brain รับ Goal และการสอนจาก Owner สะสมประสบการณ์และความทรงจำ เรียนรู้จากผลลัพธ์ พัฒนาความสามารถ รักษาความต่อเนื่องข้าม Session และในระยะยาวทำงานเป็น Personal Cognitive Assistant ที่มีสถานะต่อเนื่อง รวมถึงสามารถพัฒนาไปสู่ระบบที่มีร่างกายและ Robot ได้
-
-โครงการจะพัฒนาแบบค่อยเป็นค่อยไป
-
-เราไม่ได้พยายามสร้าง AI สุดท้ายตั้งแต่วันแรก
-
-เป้าหมายแรกคือการสร้าง กลไกการรู้คิดที่เล็กที่สุดที่สามารถเรียนรู้และเติบโตได้ พิสูจน์ด้วยการทดลอง แล้วจึงปล่อยให้ความสามารถของระบบเพิ่มขึ้นจากพื้นฐานนั้น
-
----
-
-สถานะโครงการ
-
-งานที่กำลังมุ่งเน้น:
-
-Brain-like Memory
-        ↓
-Semantic / Contextual Recall
-        ↓
-Autonomous Learning Growth
-
-Regression Baseline:
-
-363 tests — OK
-
-เป้าหมายระยะยาว:
-
-Newborn
+```text
+รับเป้าหมาย
   ↓
-Learn
+เข้าใจเป้าหมาย
   ↓
-Remember
+ตรวจความรู้ที่มี
   ↓
-Think
+ถ้ารู้ → ลงมือทำ
   ↓
-Act
+ถ้าไม่รู้ → เรียนรู้
   ↓
-Reflect
+ทดลอง
   ↓
-Develop
+ตรวจสอบ
+  ↓
+เรียนรู้จากผล
+  ↓
+จดจำ
+  ↓
+พัฒนาวิธีการ
+  ↓
+นำทักษะกลับมาใช้
   ↺
+```
 
-The Transcending Form — AE01M
+ปลายทางคือระบบที่สามารถรับ Goal จากผู้ใช้ ทำงานผ่าน Cognitive Loop เรียนรู้จากประสบการณ์ และเพิ่มความสามารถของตัวเองอย่างต่อเนื่องภายใต้ขอบเขตที่กำหนดไว้
 
-«โครงการวิจัยเพื่อสำรวจว่า Local Cognitive Architecture ขนาดเล็กสามารถพัฒนาความสามารถผ่าน Memory, Experience, Learning และ Autonomous Cognitive Cycle ได้อย่างไร»
+แนวคิดสุดท้ายของโครงการจึงไม่ใช่
+
+> “สร้าง AI ที่รู้ทุกอย่างตั้งแต่เริ่มต้น”
+
+แต่คือ
+
+> **“สร้างสมองซอฟต์แวร์ที่เริ่มต้นจากความสามารถพื้นฐาน แล้วสามารถเรียนรู้ จดจำ ทดลอง ประเมิน และพัฒนาความสามารถจากประสบการณ์ได้”**
+
+นี่คือเป้าหมายหลักของ **AE01M — The Transcending Form**.
