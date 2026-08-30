@@ -2,7 +2,7 @@
   <a href="README.th.md">ไทย</a> | <a href="README.md">English</a>
 </div>
 
-
+โปรเจ็คทำเพื่อวิจัยและศึกษา 
 # AE01M — The Transcending Form
 
 > **A Local Cognitive Architecture for a Newborn Artificial Mind**
